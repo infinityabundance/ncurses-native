@@ -1,0 +1,14 @@
+[package]
+name = "ncurses-native"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+license = "Apache-2.0"
+repository = "https://github.com/infinityabundance/ncurses-native"
+description = "Clean-room, dependency-free Rust reproduction of ncurses terminal output (cursor-movement optimizer, SGR attributes, color, screen framing) for the admitted xterm/ncurses 6.6 terminal. A byte-exact seed toward native-Rust curses output parity."
+keywords = ["curses", "terminal", "tui", "ansi", "terminfo"]
+categories = ["command-line-interface"]
+readme = "README.md"
+
+[lints.rust]
+unsafe_code = "forbid"
