@@ -1,6 +1,8 @@
 # ncurses-native
 
-![ncurses-native rendering colour, SGR attributes and cursor-positioned text — byte-for-byte the same escape stream as ncurses](https://raw.githubusercontent.com/infinityabundance/ncurses-native/main/assets/ncurses-native.png)
+![ncurses-native animating colour, SGR attributes, a progress bar and cursor-positioned text — byte-for-byte the same escape stream as ncurses](https://raw.githubusercontent.com/infinityabundance/ncurses-native/main/assets/ncurses-native-demo.gif)
+
+<sub>Live render of the published crate (the static frame is [`assets/ncurses-native.png`](assets/ncurses-native.png)).</sub>
 
 A clean-room, dependency-free Rust reproduction of the **observable terminal byte
 output** of ncurses 6.4. The output engines are terminfo-driven and verified
