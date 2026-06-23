@@ -106,7 +106,7 @@ Every gap between original ncurses and ncurses-native is recorded, as a diff, in
   ncurses 6.4 man pages, the Rust reference, and the ncurses CVE record.
 - [`docs/generated/gap-ledger-functions.md`](docs/generated/gap-ledger-functions.md)
   -- the machine-checked, freshness-gated per-function half: every public C
-  function whose status is not `full` (449 / 481), with its gap kind, counterpart,
+  function whose status is not `full` (448 / 481), with its gap kind, counterpart,
   and court.
 
 ## Parity matrices (generated, freshness-gated)
