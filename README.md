@@ -1,7 +1,11 @@
 # ncurses-native
 
+![ncurses-native rendering colour, SGR attributes and cursor-positioned text — byte-for-byte the same escape stream as ncurses](https://raw.githubusercontent.com/infinityabundance/ncurses-native/main/assets/ncurses-native.png)
+
 A clean-room, dependency-free Rust reproduction of the **observable terminal byte
-output** of ncurses 6.4 on `TERM=xterm`. Reverse-engineered from captured behaviour,
+output** of ncurses 6.4. The output engines are terminfo-driven and verified
+byte-for-byte against real ncurses across the **entire compiled terminfo database —
+2,563 terminal types**, not just xterm. Reverse-engineered from captured behaviour,
 **not** ported from ncurses C source — there is zero ncurses C source in this repo.
 
 `#![forbid(unsafe_code)]`, std-only, no dependencies, ASCII-only source.
@@ -57,12 +61,17 @@ key decoding. The macro-style C API maps to methods (`getyx` → `win.getyx()`).
 This is a **seed grown toward parity**, not a finished library, and **not a replacement**
 for ncurses:
 
-- Byte claims are bounded to the **admitted ncurses 6.4** oracle, `TERM=xterm`, 80×24 pty,
-  `C.UTF-8` — proven by the receipts under `reports/oracle/`. Other `TERM`s / other ncurses
-  builds are an explicit non-claim.
+- The terminfo-driven engines (cursor optimizer, `doupdate`, colour, attributes) and the
+  `infocmp`/`tic` tools are verified against the **admitted ncurses 6.4** oracle across the
+  **whole 2,563-entry terminfo database** — thousands of terminal types — at the percentages
+  in the table above (`tools/db-coverage/sweep.py`, re-runnable). The remaining few-percent
+  tails are enumerated per-terminal, not hidden.
+- The one xterm-specific piece is the **live-pty composite framing** capture (`initscr`…`endwin`
+  whole-stream), pinned to `TERM=xterm`, 80×24, `C.UTF-8` — proven by the receipts under
+  `reports/oracle/`. Other ncurses *builds* are a non-claim.
 - It reproduces terminal **output**; functions with no terminal-output contract (interactive
   input reads, pure queries, global state) are classified, not byte-claimed.
-- Wide-char/double-width and multi-terminal breadth are in progress.
+- Wide-char/double-width breadth is in progress.
 
 ## Documentation
 
