@@ -1,0 +1,17 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.MVCUR.LINUX",
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The mvcur byte engine is byte-exact for the Linux console too -- all 23409 pairs -- because linux shares xterm's cursor cap set and flags. This proves the engine is terminal-general for terminals sharing that cap set (STRUCT-04); terminals with a different cap set (e.g. vt100 without hpa/vpa) need the generalized cost model (now reproduced -- see NCURSES.MVCUR.VT100).",
+  "oracle_class": "pty-cursor-optimizer",
+  "oracle_method": "initscr; mvcur(from,to) for each pair of a 153x153 grid; endwin under an 80x24 linux-console pty; per-call output marker-isolated; compared to the crate's mvcur",
+  "pairs_compared": 23409,
+  "pairs_matched": 23409,
+  "recaptured": 1,
+  "rows": 24,
+  "term": "linux",
+  "verdict": "admitted_match"
+}

@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.KEYNAME",
+  "codes": 602,
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Key-code naming: printable/control/meta formatting + the KEY_* code->name table.",
+  "oracle_class": "keyname",
+  "oracle_method": "keyname(code) for code in -1..600 vs ncurses",
+  "rows": 24,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

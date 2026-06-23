@@ -1,0 +1,17 @@
+{
+  "byte_match": true,
+  "cabi_bytes": "clear=\\E[H\\E[2J\ncup=\\E[3;5H\nsetaf=\\E[31m\n",
+  "case_id": "NCURSES.SONAME",
+  "cols": 80,
+  "linked_against_ours": true,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The cdylib carries SONAME libtinfo.so.6 (set via build.rs) and is a working dynamically-linked drop-in: a C program linked against it produces byte-identical terminfo output to the system libtinfo. Exact symbol-versioning to the NCURSES version nodes (so EXISTING versioned binaries bind) is limited by rustc's own cdylib export version-script (the verdef nodes are emitted but symbols stay at the base version); recorded in gap-ledger ABI-VERS-01.",
+  "oracle_class": "c-abi-soname",
+  "oracle_method": "readelf SONAME of libncurses_cabi.so; then link a C program against it (copied as libtinfo.so.6, resolved via rpath) vs the system libtinfo and compare stdout",
+  "rows": 24,
+  "soname": "libtinfo.so.6",
+  "term": "xterm",
+  "tinfo_bytes": "clear=\\E[H\\E[2J\ncup=\\E[3;5H\nsetaf=\\E[31m\n",
+  "verdict": "admitted_match"
+}

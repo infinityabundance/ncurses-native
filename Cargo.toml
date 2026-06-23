@@ -1,6 +1,6 @@
 [package]
 name = "ncurses-native"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.74"
 license = "Apache-2.0"
@@ -12,3 +12,10 @@ readme = "README.md"
 
 [lints.rust]
 unsafe_code = "forbid"
+
+# The published crate is the package above. `xtask` is a development-only
+# workspace member (it generates docs/generated/*.md from the committed models);
+# it is never a dependency of the published crate and is not itself published.
+[workspace]
+members = ["xtask", "crates/ncurses-terminal", "crates/ncurses-cabi", "crates/ncurses-tools", "crates/ncurses-tinfo-cabi"]
+resolver = "2"

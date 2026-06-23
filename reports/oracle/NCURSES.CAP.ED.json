@@ -1,0 +1,19 @@
+{
+  "byte_match": true,
+  "capability": "clr_eos (ed)",
+  "case_id": "NCURSES.CAP.ED",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "oracle_bytes": "\u001b[J",
+  "oracle_class": "terminfo-capability",
+  "oracle_method": "infocmp ed",
+  "oracle_sha256": "59fd85527fcfe79af7238de7d221ae4fa57c20bd142db0b28051952787e827bb",
+  "rows": 24,
+  "rust_bytes": "\u001b[J",
+  "rust_dump_id": "cap.ed",
+  "rust_sha256": "59fd85527fcfe79af7238de7d221ae4fa57c20bd142db0b28051952787e827bb",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

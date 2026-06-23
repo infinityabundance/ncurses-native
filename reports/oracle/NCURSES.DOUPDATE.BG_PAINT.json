@@ -1,0 +1,33 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.DOUPDATE.BG_PAINT",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The colored-background first paint (ClearScreen color-init, OPT-04) is byte-exact: ncurses sets the bkgd color before clear_screen so the bce clear fills with it, then ClrBottom emits clr_eos for the trailing region and TransformLine paints the content rows (clr_eol to the bkgd color). The crate's ClearScreen now UpdateAttrs(bkgd) before the clear, deriving the bkgd from the screen's lower-right cell as ncurses' ClrBlank does.",
+  "oracle_class": "pty-screen-update",
+  "oracle_method": "for each colored-bkgd scenario: capture empty / with-content streams from real ncurses on an 80x24 xterm pty under start_color + bkgd(COLOR_PAIR); strip the shared teardown + prologue; compare to the crate's doupdate first paint",
+  "rows": 24,
+  "scenarios": [
+    {
+      "scenario": "bg2_only",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "bg2_content",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "bg1_content",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "bg2_multiline",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 4,
+  "scenarios_total": 4,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

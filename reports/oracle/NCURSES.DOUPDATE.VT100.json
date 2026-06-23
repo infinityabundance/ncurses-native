@@ -1,0 +1,161 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.DOUPDATE.VT100",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The doupdate engine is byte-exact on vt100 -- a DIFFERENT cap class from xterm/linux. Threading the vt100 cursor cost model (no hpa/vpa, cup=33, cuf1/cuu1=13, parm caps=5, cub1=1) and the TransformLine shape caps (el/el1 padded to 18/19 so spaces beat clr_eol; no ech/parm_ich/parm_dch so runs and char insert/delete are painted as literal cells -- ncurses gates the idc detection on can_idc) reproduces real ncurses-on-vt100 for the plain path. vt100's `xon` suppresses padding NUL bytes. Colored scenarios are out of scope (vt100 is monochrome). This closes the open multi-terminal cost model (STRUCT-04).",
+  "oracle_class": "pty-screen-update",
+  "oracle_method": "for each plain scenario: capture empty / phase-0 / phase-0+phase-1 streams from real ncurses on an 80x24 vt100 pty (no-endwin prefix isolation); compare to the crate's doupdate with the vt100 Caps (no hpa/vpa) + shape caps (el/el1=18/19, no ech/idc) + clear_screen `\\e[H\\e[J`, no rep",
+  "rows": 24,
+  "scenarios": [
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "overwrite_same_len",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "two_lines_then_overwrite",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "trailing_clear",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "append_tail",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "leading_blank_shift",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "clear_bottom",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "change_midline",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "no_change",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "multi_line_diff",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "insert_chars_midline",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "delete_chars_midline",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "long_blank_run",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "grow_into_blank_tail",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "prepend_shift",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "scattered_changes",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "col0_change",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "replace_whole_line",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "line_becomes_blank",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "two_region_overwrite",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "margin_fill_line",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "margin_overflow_wrap",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "margin_fill_then_redraw",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "clearok_full_repaint",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "leaveok_no_park",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 24,
+  "scenarios_total": 24,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

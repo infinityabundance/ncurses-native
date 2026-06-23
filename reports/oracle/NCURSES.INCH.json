@@ -1,0 +1,26 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "061f4756393679ecffc22b3f1f8ff5e53351d80239ea12861a9e47e231322f35",
+  "cabi_values": "200141 200162 20270 120 120",
+  "case_id": "NCURSES.INCH",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_values": "200141 200162 20270 120 120",
+  "notes": "Narrow read-back (mvinch -> char|attr|color chtype), mvchgat (replace a run's attributes+pair, characters unchanged), and getbkgd (background char|attr) report identical chtypes to libncursesw.",
+  "oracle_class": "c-abi-readback",
+  "oracle_method": "link one mvinch/mvchgat/getbkgd C program against libncurses_cabi + the generated curses.h and against libncursesw under an 80x24 xterm pty; compare the reported chtype values",
+  "rows": 24,
+  "symbols": [
+    "inch",
+    "winch",
+    "mvinch",
+    "mvwinch",
+    "chgat",
+    "wchgat",
+    "mvchgat",
+    "getbkgd"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

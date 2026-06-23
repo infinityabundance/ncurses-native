@@ -1,0 +1,29 @@
+{
+  "byte_match": true,
+  "c_exit_code": 0,
+  "c_fixture_sha256": "11dcb534253439686f04999c3150cda6d034a5266601e6cfe821fd94908165bb",
+  "case_id": "NCURSES.SCROLL.NOOUTPUT",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "the output-option flags (scrollok/idlok/idcok/immedok/leaveok), the scroll region setters, and the scroll operations change window state in memory and emit no immediate terminal bytes; output happens at the next refresh.",
+  "oracle_class": "pty-behavior",
+  "oracle_method": "initscr; <fn>; endwin under 80x24 pty; per-call output isolated by in-buffer markers",
+  "per_function_output": {
+    "idcok": "",
+    "idlok": "",
+    "immedok": "",
+    "leaveok": "",
+    "scrl": "",
+    "scroll": "",
+    "scrollok": "",
+    "setscrreg": "",
+    "wscrl": "",
+    "wsetscrreg": ""
+  },
+  "rows": 24,
+  "rust_bytes": "",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

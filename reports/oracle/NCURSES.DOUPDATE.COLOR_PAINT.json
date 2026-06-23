@@ -1,0 +1,41 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.DOUPDATE.COLOR_PAINT",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The attribute/color first paint (the ClrUpdate path with the vidputs SGR engine + _nc_do_color) is byte-exact vs real ncurses for bold/underline/reverse/color-pair text -- closing the colored-first-paint gap the main doupdate court leaves to the diff. The colored *background* first paint (the ClearScreen color-init) is courted separately (NCURSES.DOUPDATE.BG_PAINT, OPT-04).",
+  "oracle_class": "pty-screen-update",
+  "oracle_method": "for each colored scenario: capture empty / with-content streams (no endwin) from real ncurses on an 80x24 xterm pty under start_color; the empty stream is an exact prefix, so the first paint is the tail; compare to the crate's doupdate first paint (leading clear aligned)",
+  "rows": 24,
+  "scenarios": [
+    {
+      "scenario": "bold",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "underline",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "reverse",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "red_pair",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "two_colors",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "bold_and_color",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 6,
+  "scenarios_total": 6,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

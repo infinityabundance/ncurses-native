@@ -1,6 +1,6 @@
 //! Screen erase operations and the single-field repaint -- the byte sequences ncurses emits to
 //! clear regions of the screen and to paint one static field on an otherwise blank screen, on the
-//! admitted xterm/ncurses 6.6 terminal.
+//! admitted xterm/ncurses 6.4 terminal.
 //!
 //! The erase ops are exact terminfo capabilities. [`single_field_repaint`] reproduces the
 //! `wclear` + top-down `TransformLine` paint ncurses chooses when a single field is shown on a

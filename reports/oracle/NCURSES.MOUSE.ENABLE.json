@@ -1,0 +1,20 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "c62110ba658f0f4a43b1e66208d63ab8b5841c18c376abec34c08822b4fdac0d",
+  "cabi_stream": "\u001b[?1049h\u001b[22;0;0t\u001b[1;24r\u001b(B\u001b[m\u001b[4l\u001b[?7h\u001b[?1h\u001b=\u001b[?1006;1000h\u001b[?1006;1000l\u001b[24;1H\u001b[?1049l\u001b[23;0;0t\r\u001b[?1l\u001b>",
+  "case_id": "NCURSES.MOUSE.ENABLE",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_stream": "\u001b[?1049h\u001b[22;0;0t\u001b[1;24r\u001b(B\u001b[m\u001b[4l\u001b[?7h\u001b[?1h\u001b=\u001b[?1006;1000h\u001b[?1006;1000l\u001b[24;1H\u001b[?1049l\u001b[23;0;0t\r\u001b[?1l\u001b>",
+  "notes": "keypad(TRUE) emits smkx, mousemask enables xterm SGR+normal mouse reporting, and endwin disables it before the teardown -- byte-identical to libncursesw. The SGR mouse-report decode + getmouse (and the timing-dependent click coalescing) are not yet modeled.",
+  "oracle_class": "c-abi-mouse",
+  "oracle_method": "link one keypad+mousemask C program against libncurses_cabi + the generated curses.h and against libncursesw; compare the full emitted stream",
+  "rows": 24,
+  "symbols": [
+    "keypad",
+    "mousemask"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

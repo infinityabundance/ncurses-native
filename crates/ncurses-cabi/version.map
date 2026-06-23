@@ -1,0 +1,12 @@
+NCURSES6_TINFO_5.0.19991023 {
+  global:
+    setupterm; tigetstr; tigetnum; tigetflag; tputs; putp; tgoto; tparm; curses_version; acs_map;
+};
+NCURSESW6_5.1.20000708 {
+  global:
+    initscr; endwin; refresh; doupdate; newwin; delwin;
+    move; addstr; addch; mvaddstr; mvaddch; erase; clear;
+    attron; attroff; attrset; start_color; init_pair;
+    wmove; waddstr; waddch; mvwaddstr; wattron; wattroff; wattrset; werase;
+    wnoutrefresh; wrefresh;
+};

@@ -1,0 +1,29 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.LIBTINFO",
+  "cols": 80,
+  "exported_symbols": [
+    "acs_map",
+    "curses_version",
+    "putp",
+    "setupterm",
+    "tgoto",
+    "tigetflag",
+    "tigetnum",
+    "tigetstr",
+    "tparm",
+    "tputs"
+  ],
+  "linked_ours": true,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The standalone `ncurses-tinfo-cabi` cdylib is a true minimal `libtinfo.so.6`: it exports exactly the nine low-level terminfo symbols (setupterm, tigetstr/num/flag, tputs, putp, tgoto, tparm, curses_version) and no curses screen symbols, and a C program using only those, dynamically linked against it, produces output byte-identical to the system libtinfo. This is the termlib split bash/less/readline depend on. Closes the libtinfo half of BLD-05 (the `libncursesw` .so / NCURSES.SONAME court already serves the monolithic role).",
+  "oracle_class": "c-abi-soname",
+  "oracle_method": "readelf SONAME + nm -D exported-symbol set of the standalone libncurses_tinfo_cabi.so; then link a tinfo-only C program against it (as libtinfo.so.6 via rpath) vs the system libtinfo and diff stdout",
+  "output_match": true,
+  "rows": 24,
+  "soname": "libtinfo.so.6",
+  "symbols_minimal": true,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

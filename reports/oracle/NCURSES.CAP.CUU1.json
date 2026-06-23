@@ -1,0 +1,19 @@
+{
+  "byte_match": true,
+  "capability": "cursor_up (cuu1)",
+  "case_id": "NCURSES.CAP.CUU1",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "oracle_bytes": "\u001b[A",
+  "oracle_class": "terminfo-capability",
+  "oracle_method": "infocmp cuu1",
+  "oracle_sha256": "f2b5fe5221db4c3336800f17cebc9dcd130fcc3174729d5511219b68cbd22a2e",
+  "rows": 24,
+  "rust_bytes": "\u001b[A",
+  "rust_dump_id": "cap.cuu1",
+  "rust_sha256": "f2b5fe5221db4c3336800f17cebc9dcd130fcc3174729d5511219b68cbd22a2e",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

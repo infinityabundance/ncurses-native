@@ -1,0 +1,28 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "dc26cf0675b0fd881d33760c4bbfb5460d9c4dce5d7402d877763f91a83fbb70",
+  "cabi_body": "\u001b[H\u001b[2J\u001b(B\u001b[0;1m\u001b[31m\u001b[40mAA\u001b(B\u001b[m\u001b[39;49m\u001b[37m\u001b[40m \u001b(B\u001b[0;1;4m\u001b[31m\u001b[40mBB\u001b(B\u001b[m\u001b[39;49m\u001b[37m\u001b[40m \u001b(B\u001b[0;4m\u001b[31m\u001b[40mCC\r\u001b[2d\u001b[32m\u001b[44mDD\u001b(B\u001b[m\u001b[39;49m\u001b[37m\u001b[40m  \u001b(B\u001b[0;7m\u001b[39;49m\u001b[37m\u001b[40mEE\u001b(B\u001b[m\u001b[39;49m\u001b[37m\u001b[40m  FF",
+  "case_id": "NCURSES.ATTR_SET",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_body": "\u001b[H\u001b[2J\u001b(B\u001b[0;1m\u001b[31m\u001b[40mAA\u001b(B\u001b[m\u001b[39;49m\u001b[37m\u001b[40m \u001b(B\u001b[0;1;4m\u001b[31m\u001b[40mBB\u001b(B\u001b[m\u001b[39;49m\u001b[37m\u001b[40m \u001b(B\u001b[0;4m\u001b[31m\u001b[40mCC\r\u001b[2d\u001b[32m\u001b[44mDD\u001b(B\u001b[m\u001b[39;49m\u001b[37m\u001b[40m  \u001b(B\u001b[0;7m\u001b[39;49m\u001b[37m\u001b[40mEE\u001b(B\u001b[m\u001b[39;49m\u001b[37m\u001b[40m  FF",
+  "notes": "The X/Open attr_t setter family (attr_on ORs, attr_off clears, attr_set/color_set replace, standout adds A_STANDOUT, standend clears) renders byte-identically to libncursesw. attr_get's pair *reporting* differs under the system's ext-color ABI (pair stored separately vs folded into the A_COLOR bits); the rendered output is representation-independent, so the setters are courted by what they draw.",
+  "oracle_class": "c-abi-attrset",
+  "oracle_method": "link one attr_set/attr_on/attr_off/color_set/standout/standend C program against libncurses_cabi + the generated curses.h and against libncursesw; draw under each setting and compare the painted body (framing stripped)",
+  "rows": 24,
+  "symbols": [
+    "attr_set",
+    "attr_on",
+    "attr_off",
+    "color_set",
+    "standout",
+    "standend",
+    "wattr_set",
+    "wattr_on",
+    "wattr_off",
+    "wcolor_set"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

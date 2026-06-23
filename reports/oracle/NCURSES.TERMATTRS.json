@@ -1,0 +1,66 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.TERMATTRS",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Terminfo-derived terminal queries. termattrs/baudrate/erasechar/killchar/curses_version are screen(SP)/tty/identity state with no terminfo-only contract and are classified n/a, not reconstructed here.",
+  "oracle_class": "terminal-queries",
+  "oracle_method": "crate longname/termname/has_ic/has_il vs ncurses across terminals, TERMINFO pinned",
+  "queries": [
+    "longname",
+    "termname",
+    "has_ic",
+    "has_il"
+  ],
+  "rows": 24,
+  "term": "xterm",
+  "terminals": [
+    {
+      "byte_match": true,
+      "term": "xterm",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "term": "xterm-256color",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "term": "linux",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "term": "screen",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "term": "tmux",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "term": "tmux-256color",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "term": "vt100",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "term": "ansi",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "term": "rxvt",
+      "verdict": "admitted_match"
+    }
+  ],
+  "verdict": "admitted_match"
+}

@@ -1,5 +1,5 @@
 //! SGR display attributes -- the byte sequences ncurses emits to switch a monochrome attribute on
-//! and off, on the admitted xterm/ncurses 6.6 terminal.
+//! and off, on the admitted xterm/ncurses 6.4 terminal.
 //!
 //! These are terminal/curses attribute names (`Bold`, not "highlight"). Each maps to the SGR
 //! numeric parameter ncurses emits via `set_attributes`. The on-sequence designates the ASCII

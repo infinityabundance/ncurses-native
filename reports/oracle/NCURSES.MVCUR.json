@@ -1,0 +1,56 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "90bba8514150747021f68f1203f1d9f5c34208d7316b8380f8d2d17944d9158f",
+  "case_id": "NCURSES.MVCUR",
+  "cols": 80,
+  "contaminated_recaptured": [
+    [
+      23,
+      79,
+      8,
+      15
+    ]
+  ],
+  "diffs": [],
+  "grid_cols": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    15,
+    20,
+    39,
+    40,
+    78,
+    79
+  ],
+  "grid_rows": [
+    0,
+    1,
+    2,
+    3,
+    5,
+    8,
+    12,
+    18,
+    23
+  ],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Clean-room reproduction of ncurses lib_mvcur.c: onscreen_mvcur tactic enumeration (cup / local / CR+local / home+local; cursor_to_ll and auto_left_margin absent on xterm) scored by relative_move with the STATIC sample-parameter cost model from _nc_mvcur_init (hpa=vpa=5, cup=8, cuf1=cuu1=3, cub1=cr=1, home=3), strict-< tie-break so the lower-numbered tactic wins. Public mvcur(3) uses ovw=FALSE, so short forward moves use cuf1/hpa, never overwrite-with-spaces. Verified byte-exact for all 23409 pairs; the offline replay lives in tests/mvcur_matrix.rs.",
+  "oracle_class": "pty-cursor-optimizer",
+  "oracle_method": "initscr; for each (from,to) in a 153x153 sampled grid: mvcur(from,to); endwin under 80x24 xterm pty; per-call output isolated by in-buffer markers",
+  "pairs_compared": 23409,
+  "pairs_matched": 23409,
+  "rows": 24,
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

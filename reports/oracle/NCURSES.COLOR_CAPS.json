@@ -1,0 +1,23 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "500da16369313c5e1e6c4328ce461274b4934d9e638905d10460107301c9e9ff",
+  "cabi_values": "1 0 8 64",
+  "case_id": "NCURSES.COLOR_CAPS",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_values": "1 0 8 64",
+  "notes": "has_colors/can_change_color and the COLORS/COLOR_PAIRS globals (set by start_color) report identical values to libncursesw for xterm (1 / 0 / 8 / 64) -- the color-init queries every colored TUI runs at startup.",
+  "oracle_class": "c-abi-colorcaps",
+  "oracle_method": "link one has_colors/can_change_color/COLORS/COLOR_PAIRS C program against libncurses_cabi.a and libncursesw under an 80x24 xterm pty; compare the values",
+  "rows": 24,
+  "symbols": [
+    "has_colors",
+    "can_change_color",
+    "COLORS",
+    "COLOR_PAIRS",
+    "start_color"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

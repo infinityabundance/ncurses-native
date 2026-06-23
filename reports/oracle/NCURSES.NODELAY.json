@@ -1,0 +1,22 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "daf174de51a39ca6a660d757366fc6264d48c6af636ff310bb095d2e9df57873",
+  "cabi_values": "a=-1 b=-1",
+  "case_id": "NCURSES.NODELAY",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_values": "a=-1 b=-1",
+  "notes": "nodelay (a 0 ms getch timeout) makes getch return ERR immediately when no input is pending, identical to libncursesw (a=-1 b=-1); timeout/wtimeout/halfdelay set the same read-timeout knob. nl/nonl/intrflush/idlok/immedok/notimeout are wired as no-effect flags for link compatibility.",
+  "oracle_class": "c-abi-input",
+  "oracle_method": "link one nodelay/getch C program against libncurses_cabi.a and libncursesw; with no input pending, compare the (non-blocking) getch return values",
+  "rows": 24,
+  "symbols": [
+    "nodelay",
+    "timeout",
+    "wtimeout",
+    "halfdelay"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

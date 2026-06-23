@@ -1,0 +1,23 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "cdd9ad5ec0432f04e9efaa129e7215339467128707148f28abc6bfa86cc2a1bf",
+  "cabi_body": "\u001b[?1049h\u001b[22;0;0t\u001b[1;24r\u001b(B\u001b[m\u001b[4l\u001b[?7h\u001b[?25l\u001b[?12;25h\u001b[?12l\u001b[?25h\u0007\u001b[?5h\u001b[?5l",
+  "cabi_returns": "1 0 2",
+  "case_id": "NCURSES.CURS_SET.CABI",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_body": "\u001b[?1049h\u001b[22;0;0t\u001b[1;24r\u001b(B\u001b[m\u001b[4l\u001b[?7h\u001b[?25l\u001b[?12;25h\u001b[?12l\u001b[?25h\u0007\u001b[?5h\u001b[?5l",
+  "ncursesw_returns": "1 0 2",
+  "notes": "curs_set emits civis/cnorm/cvvis (0/1/2) and returns the previous visibility, and beep emits bel -- byte-identical to libncursesw, with identical return values. napms (no output) is also wired. These complete common drop-in surface beyond the drawing path.",
+  "oracle_class": "c-abi-cursvis",
+  "oracle_method": "link one curs_set/beep C program against libncurses_cabi.a and libncursesw, run both under an 80x24 xterm pty, compare the emitted body (framing stripped) and the returned previous-visibility values",
+  "rows": 24,
+  "symbols": [
+    "curs_set",
+    "beep",
+    "flash"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

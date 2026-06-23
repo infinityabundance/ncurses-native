@@ -1,0 +1,19 @@
+{
+  "byte_match": true,
+  "capability": "clr_bol (el1)",
+  "case_id": "NCURSES.CAP.EL1",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "oracle_bytes": "\u001b[1K",
+  "oracle_class": "terminfo-capability",
+  "oracle_method": "infocmp el1",
+  "oracle_sha256": "674be26383a3b09e84f120e07545fdfe0ad10c08080e8b9fe8c99684fae5694d",
+  "rows": 24,
+  "rust_bytes": "\u001b[1K",
+  "rust_dump_id": "cap.el1",
+  "rust_sha256": "674be26383a3b09e84f120e07545fdfe0ad10c08080e8b9fe8c99684fae5694d",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

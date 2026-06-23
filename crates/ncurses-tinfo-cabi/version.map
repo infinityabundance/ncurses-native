@@ -1,0 +1,8 @@
+# libtinfo: export ONLY the low-level terminfo subset (the same version node the real
+# libtinfo uses); hide every other symbol so this is a true minimal termlib.
+NCURSES6_TINFO_5.0.19991023 {
+  global:
+    setupterm; tigetstr; tigetnum; tigetflag; tputs; putp; tgoto; tparm; curses_version; acs_map;
+  local:
+    *;
+};

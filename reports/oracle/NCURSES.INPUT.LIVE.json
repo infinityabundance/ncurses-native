@@ -1,0 +1,57 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.INPUT.LIVE",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "End-to-end native input: ncurses-terminal's RawMode (hand-declared termios FFI, the quarantined unsafe boundary) puts the tty in raw mode and Keys drives the byte-exact KeyMap decoder, returning the same KEY_* codes as a real ncurses getch loop for arrows/F-keys/nav/text. The ESCDELAY timer for a lone trailing ESC remains a documented scope note (TIM-02).",
+  "oracle_class": "pty-input-live",
+  "oracle_method": "feed each byte sequence to the native ncurses-terminal getch binary and to a real ncurses getch loop, both raw on an 80x24 xterm pty, and compare keycodes",
+  "rows": 24,
+  "scenarios": [
+    {
+      "scenario": "arrows",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "f1_f4",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "nav_keys",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "f5_f12",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "text_and_keys",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "plain_text",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "backspace_tab_del",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "esc_then_char",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "esc_then_text",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "key_then_esc_text",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 10,
+  "scenarios_total": 10,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

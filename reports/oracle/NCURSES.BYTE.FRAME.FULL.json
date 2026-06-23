@@ -1,0 +1,21 @@
+{
+  "byte_match": true,
+  "c_exit_code": 0,
+  "c_fixture_sha256": "04a9a2d5d3f8c92578919bf32ce97079062c1d5122e6c8546bb25f63e0c307e8",
+  "case_id": "NCURSES.BYTE.FRAME.FULL",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The INIT_PROLOGUE/TEARDOWN_EPILOGUE constants are captured live from this ncurses 6.4 build under a pty (initscr+start_color+keypad+curs_set(1)+mousemask+refresh+endwin); the crate's frame.full (prologue + teardown) reproduces the full byte stream exactly. The framing is terminal/build-specific, so it is pinned to the admitted xterm/ncurses 6.4.",
+  "oracle_bytes": "\u001b[?1049h\u001b[22;0;0t\u001b[1;24r\u001b(B\u001b[m\u001b[4l\u001b[?7h\u001b[39;49m\u001b[?1h\u001b=\u001b[?12l\u001b[?25h\u001b[?1006;1000h\u001b[39;49m\u001b[37m\u001b[40m\u001b[H\u001b[2J\u001b[?1006;1000l\u001b[39;49m\u001b[24d\u001b[K\u001b[24;1H\u001b[?1049l\u001b[23;0;0t\r\u001b[?1l\u001b>",
+  "oracle_class": "pty-framing",
+  "oracle_method": "initscr+start_color+keypad+curs_set(1)+mousemask+refresh+endwin under 80x24 pty",
+  "oracle_sha256": "6308851767ec7658af0d00035384f8f2b172834bbbec216c3c5f40a351edc588",
+  "rows": 24,
+  "rust_bytes": "\u001b[?1049h\u001b[22;0;0t\u001b[1;24r\u001b(B\u001b[m\u001b[4l\u001b[?7h\u001b[39;49m\u001b[?1h\u001b=\u001b[?12l\u001b[?25h\u001b[?1006;1000h\u001b[39;49m\u001b[37m\u001b[40m\u001b[H\u001b[2J\u001b[?1006;1000l\u001b[39;49m\u001b[24d\u001b[K\u001b[24;1H\u001b[?1049l\u001b[23;0;0t\r\u001b[?1l\u001b>",
+  "rust_dump_id": "frame.full",
+  "rust_sha256": "6308851767ec7658af0d00035384f8f2b172834bbbec216c3c5f40a351edc588",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

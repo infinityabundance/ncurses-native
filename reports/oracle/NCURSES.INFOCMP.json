@@ -1,0 +1,24 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.INFOCMP",
+  "cols": 80,
+  "extended": {
+    "exact": 2869,
+    "misses": [],
+    "total": 2869
+  },
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Native `infocmp -1` (crates/ncurses-tools) reproduces system infocmp byte-for-byte across the local terminfo database. The decompiler reconstructs `_nc_tic_expand` string escaping (caret/octal split driven by ncurses' value-length heuristic, the `%`-operator verbatim rule, `\\E`/`\\n`/`\\r`/`\\0`/`\\s` letter escapes, `\\,`/`\\^`/`\\\\`), power-of-two hex number formatting (`colors#0x100`), cancelled caps (`name@`), and `acsc` glyph-pair sorting. Both `infocmp -1` and `infocmp -1 -x` (extended/user-defined caps, including cancelled `name@` extensions) reproduce system infocmp byte-for-byte across the entire terminfo database -- 100.000%. Advances BLD-03 (CLI tools as native binaries).",
+  "oracle_class": "c-abi-tools",
+  "oracle_method": "build the native infocmp binary and decompile every terminal in the local terminfo database, comparing `-1` and `-1 -x` source output (minus the `#`-comment header) byte-for-byte to system infocmp",
+  "plain": {
+    "exact": 2869,
+    "misses": [],
+    "total": 2869
+  },
+  "rows": 24,
+  "term": "xterm",
+  "terminal_count": 2869,
+  "verdict": "admitted_match"
+}

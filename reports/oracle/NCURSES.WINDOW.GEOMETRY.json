@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.WINDOW.GEOMETRY",
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Window geometry (position/size/cursor/parent-offset). Shared-cell child windows are not modelled (derwin/subwin grids are independent here); geometry only.",
+  "oracle_class": "window-geometry",
+  "oracle_method": "newwin/mvwin/wresize/derwin/subwin; getbegyx/getmaxyx/getyx/getparyx compared",
+  "rows": 24,
+  "scenarios": 6,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

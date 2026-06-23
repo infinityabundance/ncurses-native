@@ -1,0 +1,77 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.DOUPDATE.LINUX",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The doupdate engine is terminal-general for the plain path: threading the two caps that differ from xterm (clear_screen `\\e[H\\e[J`, no `rep`) makes the byte-exact TransformLine reproduce real ncurses on the Linux console -- including a 30-char run emitted literally (no rep coalescing). Color/ACS caps also differ on linux and are out of this court's plain-path scope (STRUCT-04).",
+  "oracle_class": "pty-screen-update",
+  "oracle_method": "for each plain scenario: capture empty / phase-0 / phase-0+phase-1 streams from real ncurses on an 80x24 linux-console pty; isolate the body by stripping the common framing prefix/suffix; compare to the crate's doupdate with the linux clear_screen + no-rep caps",
+  "rows": 24,
+  "scenarios": [
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "overwrite",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "two_lines",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "rep_run",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "clr_eol",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "scattered",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "attr_add_bold",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "attr_recolor",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "attr_underline_ncv",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "attr_bold_color",
+      "verdict": "admitted_match"
+    },
+    {
+      "diff_match": true,
+      "first_paint_match": true,
+      "scenario": "acs_line",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 10,
+  "scenarios_total": 10,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

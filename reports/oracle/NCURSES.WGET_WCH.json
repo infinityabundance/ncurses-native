@@ -1,0 +1,34 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "cd351f12810e511195ac523db8a910c23b937f60e86aa6bb7f427734aa0c01a1",
+  "case_id": "NCURSES.WGET_WCH",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The wide input API returns identical results to libncursesw: wget_wch assembles a UTF-8 byte sequence into a codepoint (returning OK) and reports a function key as its KEY_* code (returning KEY_CODE_YES), driven by the ncurses-terminal Keys reader over the byte-exact KeyMap. This closes the wide round-trip (LOC-01) alongside the wide output court NCURSES.WIDECHAR.CABI. Scope: fully-buffered input (no ESCDELAY timing).",
+  "oracle_class": "c-abi-input-wide",
+  "oracle_method": "compile one wget_wch C program twice -- linked to libncurses_cabi.a + the generated curses.h and to libncursesw -- feed UTF-8 + function-key sequences over a raw xterm pty (UTF-8 locale), and compare the (rc, wch) pairs",
+  "rows": 24,
+  "scenarios": [
+    {
+      "scenario": "wide_text",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "wide_and_keys",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "ascii_then_cjk",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "mixed_greek_cyrillic",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 4,
+  "scenarios_total": 4,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

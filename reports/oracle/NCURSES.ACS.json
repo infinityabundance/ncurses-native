@@ -1,0 +1,27 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.ACS",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "ACS line-drawing is terminal-general: the crate translates each A_ALTCHARSET glyph through the cap's `acsc` map at emit time. xterm (identity acsc, `\\e(0`/`\\e(B`), screen (identity acsc, `^N`/`^O`), and cygwin (NON-identity acsc -> CP437 bytes, smacs `\\e[11m`/rmacs `\\e[10m`) all reproduce real ncurses byte-for-byte. This closes the non-identity acsc glyph-remapping item (STRUCT-04).",
+  "oracle_class": "pty-screen-update",
+  "oracle_method": "draw an ACS hline + box on an 80x24 pty under each TERM; strip the shared framing; compare the line-drawing body to the crate's doupdate with that terminal's sgr/rmacs/acsc caps",
+  "rows": 24,
+  "term": "xterm",
+  "terminals": [
+    {
+      "term": "xterm",
+      "verdict": "admitted_match"
+    },
+    {
+      "term": "screen",
+      "verdict": "admitted_match"
+    },
+    {
+      "term": "cygwin",
+      "verdict": "admitted_match"
+    }
+  ],
+  "verdict": "admitted_match"
+}

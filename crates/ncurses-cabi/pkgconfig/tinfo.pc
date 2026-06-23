@@ -1,0 +1,13 @@
+# pkg-config file for the native-Rust terminfo library (ncurses-cabi as libtinfo).
+# Mirrors ncurses' tinfo.pc. Set prefix/libdir/includedir at install time.
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: tinfo
+Description: native-Rust terminfo library (ncurses-native C-ABI), drop-in for libtinfo
+Version: 6.4.20240113
+URL: https://github.com/infinityabundance/ncurses-native
+Libs: -L${libdir} -ltinfo
+Cflags: -I${includedir}

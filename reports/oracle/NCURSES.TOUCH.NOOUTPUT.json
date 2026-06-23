@@ -1,0 +1,27 @@
+{
+  "byte_match": true,
+  "c_exit_code": 0,
+  "c_fixture_sha256": "4806af411e35c3cf4a11df2e24afb82d89897c56cd392e5ff2f4506fbb3e85ad",
+  "case_id": "NCURSES.TOUCH.NOOUTPUT",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "touch/untouch and the sync functions mark a window's lines dirty or in-sync in memory and emit no immediate terminal bytes; the repaint is the next refresh's job. The byte crate reconstructs this empty immediate-output contract.",
+  "oracle_class": "pty-behavior",
+  "oracle_method": "initscr; <fn>; endwin under 80x24 pty; per-call output isolated by in-buffer markers",
+  "per_function_output": {
+    "syncok": "",
+    "touchline": "",
+    "touchwin": "",
+    "untouchwin": "",
+    "wcursyncup": "",
+    "wsyncdown": "",
+    "wsyncup": "",
+    "wtouchln": ""
+  },
+  "rows": 24,
+  "rust_bytes": "",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

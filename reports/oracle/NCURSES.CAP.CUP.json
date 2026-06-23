@@ -1,0 +1,19 @@
+{
+  "byte_match": true,
+  "capability": "cursor_address (1-based 3,5)",
+  "case_id": "NCURSES.CAP.CUP",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "oracle_bytes": "\u001b[3;5H",
+  "oracle_class": "terminfo-capability",
+  "oracle_method": "tput ['cup', '2', '4']",
+  "oracle_sha256": "3a7daaeae018bc45c17ef92ced697cf4d768105eef9d557b3f00d1cf378fa384",
+  "rows": 24,
+  "rust_bytes": "\u001b[3;5H",
+  "rust_dump_id": "cap.cup",
+  "rust_sha256": "3a7daaeae018bc45c17ef92ced697cf4d768105eef9d557b3f00d1cf378fa384",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

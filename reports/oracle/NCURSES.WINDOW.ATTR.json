@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.WINDOW.ATTR",
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Monochrome display attributes stored per cell, matched to ncurses A_* bit values. Colour-pair bits are out of scope (scripts use no colour).",
+  "oracle_class": "window-attr",
+  "oracle_method": "attron/attroff/attrset/chgat + addstr; each cell's char+attribute read back via winch & A_ATTRIBUTES",
+  "rows": 24,
+  "scripts": 9,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

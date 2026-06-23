@@ -1,0 +1,385 @@
+{
+  "courts": [
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.CLEAR",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.ED",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.EL",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.EL1",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.CUU1",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.HOME",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.SETAF.2",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.SETAB.4",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.SETAF.7",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.SETAB.0",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.CUP",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.BEL",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CAP.FLASH",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.BYTE.FRAME.FULL",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.ERASE.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.OVERLAY.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.MOVE.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.REFRESH.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.RESIZE.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.BKGD.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.TOUCH.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.SCROLL.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CURS_SET",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.WINDOW.STATE",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.WINDOW.GEOMETRY",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.WINDOW.ATTR",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.COLOR.PAIR",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.KEYNAME",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.KEY.DEFINED",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.MOUSE.TRAFO",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.SLK",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.SLK.NOOUTPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.COLOR.CONTENT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.COLOR.ALLOC",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.TERMINFO.LOOKUP",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.TERMINFO.LINUX",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.TPARM",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.TPARM.LINUX",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.TPUTS",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.TERMINFO.ECOLOGY",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": false,
+      "case_id": "NCURSES.TERMCAP",
+      "verdict": "admitted_divergence"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.TERMATTRS",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.MVCUR",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.MVCUR.LINUX",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.MVCUR.VT100",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.DOUPDATE",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.DOUPDATE.LINUX",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.DOUPDATE.VT100",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.SCROLL.OPTIMIZE",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.DOUPDATE.COLOR_PAINT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.DOUPDATE.BG_PAINT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.WIDECHAR",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CABI",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CURSES",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CURSES.HEADER",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.WIDECHAR.CABI",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.WIN_WCH",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CURS_SET.CABI",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.COLOR_CAPS",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.INCH",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.ATTR_STR",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.ATTR_SET",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.OVERLAY.STATE",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.STDSCR.DRAW",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.MOUSE.ENABLE",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.GETMOUSE",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.SONAME",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.INPUT",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.INPUT.LIVE",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.CABI.GETCH",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.WGET_WCH",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.GETNSTR",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.UNGETCH",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.NODELAY",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "case_id": "NCURSES.ACS",
+      "verdict": "admitted_match"
+    }
+  ],
+  "generated_courts": 75,
+  "ncurses_version": "ncurses 6.4.20240113",
+  "verdicts": {
+    "admitted_divergence": 1,
+    "admitted_match": 74
+  }
+}

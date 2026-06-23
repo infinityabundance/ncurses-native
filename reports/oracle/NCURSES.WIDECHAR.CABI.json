@@ -1,0 +1,32 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "feeb7a050ec2062e20308df4b508280d0bff389d13863dcb14733239592dc784",
+  "cabi_body": "\u001b[H\u001b[2J\u001b[2d  \u001b(B\u001b[0;1m\u00e4\u00b8\u0096\u001b(B\u001b[0;4m\u00ef\u00bc\u00a1\r\u001b[4d\u001b(B\u001b[mcaf\u00c3\u00a9 \u00e4\u00b8\u0096\u00e7\u0095\u008c \u00ce\u00b1\u00ce\u00b2\u00ce\u00b3\r\u001b[5d\u00e3\u0081\u0093\u00e3\u0082\u0093\u00e3\u0081\u00ab\u00e3\u0081\u00a1\u00e3\u0081\u00af \u00ed\u0095\u009c\u00ea\u00b5\u00ad\u00ec\u0096\u00b4",
+  "cabi_sha256": "a4c46f12223f9f539754acba861be570d68ab674f32fec7029af125fe44440f0",
+  "case_id": "NCURSES.WIDECHAR.CABI",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_body": "\u001b[H\u001b[2J\u001b[2d  \u001b(B\u001b[0;1m\u00e4\u00b8\u0096\u001b(B\u001b[0;4m\u00ef\u00bc\u00a1\r\u001b[4d\u001b(B\u001b[mcaf\u00c3\u00a9 \u00e4\u00b8\u0096\u00e7\u0095\u008c \u00ce\u00b1\u00ce\u00b2\u00ce\u00b3\r\u001b[5d\u00e3\u0081\u0093\u00e3\u0082\u0093\u00e3\u0081\u00ab\u00e3\u0081\u00a1\u00e3\u0081\u00af \u00ed\u0095\u009c\u00ea\u00b5\u00ad\u00ec\u0096\u00b4",
+  "ncursesw_sha256": "a4c46f12223f9f539754acba861be570d68ab674f32fec7029af125fe44440f0",
+  "notes": "The present-day ncursesw wide API -- cchar_t with setcchar/getcchar, and the add_wch/addwstr families -- compiles unmodified against the generated curses.h and draws byte-identically to the system libncursesw: complex characters (bold CJK, underlined fullwidth) and wide strings (Latin/CJK/Greek/Kana/Hangul) render through the same single-/double-width cell model the byte-exact doupdate courts (LOC-01). Combining marks (cchar_t chars[1..]) and ext-color cchar_t layout are open (LOC-03).",
+  "oracle_class": "c-abi-widechar",
+  "oracle_method": "compile one wide-API curses C program (setcchar/add_wch/mvadd_wch/mvaddwstr) against the generated curses.h + libncurses_cabi.a and against the system <curses.h> + libncursesw, run both under an 80x24 xterm pty (UTF-8 locale), and compare the screen-painting body",
+  "rows": 24,
+  "symbols": [
+    "setcchar",
+    "getcchar",
+    "add_wch",
+    "wadd_wch",
+    "mvadd_wch",
+    "mvwadd_wch",
+    "addwstr",
+    "addnwstr",
+    "waddwstr",
+    "waddnwstr",
+    "mvaddwstr",
+    "mvwaddwstr"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

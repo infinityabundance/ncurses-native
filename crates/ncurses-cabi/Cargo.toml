@@ -1,0 +1,16 @@
+[package]
+name = "ncurses-cabi"
+version = "0.0.0"
+edition = "2021"
+publish = false
+description = "The native C-ABI surface for ncurses-native: a cdylib/staticlib exposing extern \"C\" wrappers, #[repr(C)] structs, a generated curses.h, and a soname/symbol version script, so existing C programs can link/load a native-Rust ncurses (gap-ledger STRUCT-01/02, ABI-*, ECO-*)."
+
+[lib]
+# A real shared object + static archive (the libncursesw.so analogue), plus rlib
+# so the boundary can be unit-tested.
+crate-type = ["cdylib", "staticlib", "lib"]
+
+# The C-ABI boundary wraps the safe core.
+[dependencies]
+ncurses-native = { path = "../.." }
+ncurses-terminal = { path = "../ncurses-terminal" }

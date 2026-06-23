@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.CURS_SET",
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Cursor-visibility selection reconstructed from terminfo (civis/cnorm/cvvis via tputs).",
+  "oracle_class": "terminfo-capability",
+  "oracle_method": "crate Terminfo::curs_set(0/1/2) vs tput civis/cnorm/cvvis",
+  "rows": 24,
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

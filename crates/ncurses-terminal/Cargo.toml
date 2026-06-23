@@ -1,0 +1,17 @@
+[package]
+name = "ncurses-terminal"
+version = "0.0.0"
+edition = "2021"
+publish = false
+description = "Isolated tty I/O boundary for ncurses-native: the ONE place unsafe/OS terminal syscalls live, so the core ncurses-native crate stays #![forbid(unsafe_code)] and dependency-free."
+
+# This crate deliberately does NOT forbid unsafe -- it is the quarantined home for
+# the surfaces that cannot be reconstructed in safe Rust (raw tty modes via
+# termios, real getch input, live initscr/endwin to a file descriptor, napms,
+# SIGWINCH/resize). See docs/gap-ledger.md (sections IO-*/SIG-*/TIM-*).
+#
+# It wraps the safe core for the byte-exact key decoder (KeyMap). The OS termios
+# FFI is hand-declared (no libc dependency) to keep the workspace dependency-free.
+
+[dependencies]
+ncurses-native = { path = "../.." }

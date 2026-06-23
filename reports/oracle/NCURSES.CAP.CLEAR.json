@@ -1,0 +1,19 @@
+{
+  "byte_match": true,
+  "capability": "clear_screen (clear)",
+  "case_id": "NCURSES.CAP.CLEAR",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "oracle_bytes": "\u001b[H\u001b[2J",
+  "oracle_class": "terminfo-capability",
+  "oracle_method": "infocmp clear",
+  "oracle_sha256": "76204fab8290efd8954d25b26c14d60947f07f8e114bb712fb9c0a27f83d408a",
+  "rows": 24,
+  "rust_bytes": "\u001b[H\u001b[2J",
+  "rust_dump_id": "cap.clear",
+  "rust_sha256": "76204fab8290efd8954d25b26c14d60947f07f8e114bb712fb9c0a27f83d408a",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

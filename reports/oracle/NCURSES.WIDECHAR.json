@@ -1,0 +1,93 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.WIDECHAR",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Single-width (BMP, non-combining) UTF-8 parity: the crate stores one wide character per cell and emits its UTF-8 encoding per cell, with no repeat_char coalescing for multibyte glyphs (matching ncursesw's EmitRange). Out of scope (LOC-* in docs/gap-ledger.md): double-width (CJK/emoji) glyphs, combining marks, and wide read-back (winch/winstr return the narrow low byte).",
+  "oracle_class": "pty-screen-update",
+  "oracle_method": "for each scenario: capture empty / with-text streams from a real libncursesw program (setlocale(LC_ALL,\"\") under a UTF-8 locale) on an 80x24 xterm pty; isolate the first-paint bytes by stripping the shared prologue/teardown; compare to the crate's Screen::doupdate first paint",
+  "rows": 24,
+  "scenarios": [
+    {
+      "first_paint_match": true,
+      "scenario": "utf8_mixed",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "utf8_cyrillic_greek",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "utf8_symbols",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "utf8_latin1_run",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "utf8_greek_run",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "cjk_basic",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "cjk_kana_hangul",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "cjk_fullwidth",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "cjk_cursor_wrap",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "cjk_glyph_wrap",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "combining_acute",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "combining_word",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "combining_double",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "combining_mixed",
+      "verdict": "admitted_match"
+    },
+    {
+      "first_paint_match": true,
+      "scenario": "combining_midword",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 15,
+  "scenarios_total": 15,
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

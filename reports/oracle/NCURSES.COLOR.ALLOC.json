@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.COLOR.ALLOC",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Default 8-colour rgb palette (can_change_color false) and dynamic pair allocation.",
+  "oracle": "find(1,4)=1\nfind(7,7)=-1\nalloc(3,5)=3\nalloc(3,5)=3\nalloc(6,6)=4\n",
+  "oracle_class": "color",
+  "oracle_method": "color_content (default palette) / find_pair+alloc_pair vs ncurses",
+  "rows": 24,
+  "rust": "find(1,4)=1\nfind(7,7)=-1\nalloc(3,5)=3\nalloc(3,5)=3\nalloc(6,6)=4\n",
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

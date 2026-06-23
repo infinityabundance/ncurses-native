@@ -1,0 +1,4807 @@
+{
+  "_comment": "Curated, validated input to `cargo xtask gen`. Joined with the clang C inventory (c-api.json) and the syn-extracted Rust inventory to render docs/generated/port-parity*.md. Every counterpart's rust symbol must exist in the Rust inventory and every referenced court must exist as a reports/oracle/<id>.json receipt; `cargo xtask check` enforces both.",
+  "legend": [
+    {
+      "marker": "*",
+      "status": "full",
+      "meaning": "every function in the group reconstructed and admitted by a court"
+    },
+    {
+      "marker": "~",
+      "status": "partial",
+      "meaning": "some behavior reconstructed with an executable court (byte/terminfo oracle)"
+    },
+    {
+      "marker": "o",
+      "status": "scaffold",
+      "meaning": "a byte-producing stand-in exists, not yet pinned by its own court"
+    },
+    {
+      "marker": "!",
+      "status": "divergent",
+      "meaning": "a counterpart exists but a court records a measured divergence from the in-repo oracle"
+    },
+    {
+      "marker": ">",
+      "status": "deferred",
+      "meaning": "no immediate terminal output; the function's effect is realized later by refresh/doupdate, proven by an empty-output court"
+    },
+    {
+      "marker": "n",
+      "status": "n_a",
+      "meaning": "no terminal-output contract (pure query or state); nothing for a byte-output reconstruction to emit"
+    },
+    {
+      "marker": ".",
+      "status": "none",
+      "meaning": "no counterpart"
+    }
+  ],
+  "coverage_definition": "A function is 'resolved' when it has a counterpart (full/partial/scaffold/divergent) OR a non-output classification (deferred/n_a) backed by evidence. Resolution is NOT a claim of API equivalence: ncurses-native exposes byte producers, not the ncurses C function signatures. Counterparts marked full/partial/divergent are linked to oracle receipts; scaffold counterparts are honest stand-ins; deferred functions are proven to emit no immediate bytes (their effect is a later refresh); n_a functions are pure queries with no terminal-output contract.",
+  "default_group": "uncat",
+  "classifications": {
+    "clearok": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.ERASE.NOOUTPUT"
+      ],
+      "note": "Sets the force-clear flag and emits nothing; the next refresh emits clear_screen."
+    },
+    "is_cleared": {
+      "status": "n_a",
+      "note": "Pure query returning the clearok flag; no terminal-output contract for a byte reconstruction to emit."
+    },
+    "overlay": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.OVERLAY.NOOUTPUT"
+      ],
+      "note": "Copies non-blank cells from one window to another in memory and emits nothing; the result is shown by a later refresh."
+    },
+    "overwrite": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.OVERLAY.NOOUTPUT"
+      ],
+      "note": "Copies all cells from one window to another in memory and emits nothing; effect deferred to refresh."
+    },
+    "copywin": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.OVERLAY.NOOUTPUT"
+      ],
+      "note": "Rectangle copy between windows in memory; emits nothing, effect deferred to refresh."
+    },
+    "del_curterm": {
+      "status": "n_a",
+      "note": "Manages/frees the global cur_term; ncurses-native uses owned Terminfo values, so there is no global pointer to set/delete/free and no terminal output to emit."
+    },
+    "del_curterm_sp": {
+      "status": "n_a",
+      "note": "Manages/frees the global cur_term; ncurses-native uses owned Terminfo values, so there is no global pointer to set/delete/free and no terminal output to emit."
+    },
+    "set_curterm": {
+      "status": "n_a",
+      "note": "Manages/frees the global cur_term; ncurses-native uses owned Terminfo values, so there is no global pointer to set/delete/free and no terminal output to emit."
+    },
+    "set_curterm_sp": {
+      "status": "n_a",
+      "note": "Manages/frees the global cur_term; ncurses-native uses owned Terminfo values, so there is no global pointer to set/delete/free and no terminal output to emit."
+    },
+    "exit_terminfo": {
+      "status": "n_a",
+      "note": "Manages/frees the global cur_term; ncurses-native uses owned Terminfo values, so there is no global pointer to set/delete/free and no terminal output to emit."
+    },
+    "tiscan_s": {
+      "status": "n_a",
+      "note": "Scans a format string for its parameter count/types (a safety/introspection helper); produces no terminal output to reconstruct."
+    },
+    "redrawwin": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.REFRESH.NOOUTPUT"
+      ],
+      "note": "Marks a window/line range for full repaint on the next refresh; emits no immediate terminal bytes (proven empty-output)."
+    },
+    "wredrawln": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.REFRESH.NOOUTPUT"
+      ],
+      "note": "Marks a window/line range for full repaint on the next refresh; emits no immediate terminal bytes (proven empty-output)."
+    },
+    "bkgd": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.BKGD.NOOUTPUT"
+      ],
+      "note": "Sets a window's background char+attribute in memory; emits no immediate terminal bytes (shown by a later refresh). Proven empty-output."
+    },
+    "bkgdset": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.BKGD.NOOUTPUT"
+      ],
+      "note": "Sets a window's background char+attribute in memory; emits no immediate terminal bytes (shown by a later refresh). Proven empty-output."
+    },
+    "wbkgd": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.BKGD.NOOUTPUT"
+      ],
+      "note": "Sets a window's background char+attribute in memory; emits no immediate terminal bytes (shown by a later refresh). Proven empty-output."
+    },
+    "wbkgdset": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.BKGD.NOOUTPUT"
+      ],
+      "note": "Sets a window's background char+attribute in memory; emits no immediate terminal bytes (shown by a later refresh). Proven empty-output."
+    },
+    "getbkgd": {
+      "status": "n_a",
+      "note": "Pure query returning a window's background char+attribute; no terminal-output contract."
+    },
+    "termattrs": {
+      "status": "n_a",
+      "note": "Supported-video-attributes mask computed at the SCREEN(SP) level (0 without a screen); requires the screen model not present in the terminfo-only substrate."
+    },
+    "termattrs_sp": {
+      "status": "n_a",
+      "note": "Supported-video-attributes mask computed at the SCREEN(SP) level (0 without a screen); requires the screen model not present in the terminfo-only substrate."
+    },
+    "baudrate": {
+      "status": "n_a",
+      "note": "Queries the live terminal's tty/termios state (baud / erase / kill char), not terminfo; no terminal-output contract for a byte reconstruction."
+    },
+    "baudrate_sp": {
+      "status": "n_a",
+      "note": "Queries the live terminal's tty/termios state (baud / erase / kill char), not terminfo; no terminal-output contract for a byte reconstruction."
+    },
+    "erasechar": {
+      "status": "n_a",
+      "note": "Queries the live terminal's tty/termios state (baud / erase / kill char), not terminfo; no terminal-output contract for a byte reconstruction."
+    },
+    "erasechar_sp": {
+      "status": "n_a",
+      "note": "Queries the live terminal's tty/termios state (baud / erase / kill char), not terminfo; no terminal-output contract for a byte reconstruction."
+    },
+    "killchar": {
+      "status": "n_a",
+      "note": "Queries the live terminal's tty/termios state (baud / erase / kill char), not terminfo; no terminal-output contract for a byte reconstruction."
+    },
+    "killchar_sp": {
+      "status": "n_a",
+      "note": "Queries the live terminal's tty/termios state (baud / erase / kill char), not terminfo; no terminal-output contract for a byte reconstruction."
+    },
+    "curses_version": {
+      "status": "n_a",
+      "note": "Returns the curses library identity/version string; not a terminal capability and no terminal-output contract."
+    },
+    "touchwin": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.TOUCH.NOOUTPUT"
+      ],
+      "note": "Marks window lines dirty/in-sync in memory; emits no immediate terminal bytes (repaint is the next refresh's job). Proven empty-output."
+    },
+    "touchline": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.TOUCH.NOOUTPUT"
+      ],
+      "note": "Marks window lines dirty/in-sync in memory; emits no immediate terminal bytes (repaint is the next refresh's job). Proven empty-output."
+    },
+    "untouchwin": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.TOUCH.NOOUTPUT"
+      ],
+      "note": "Marks window lines dirty/in-sync in memory; emits no immediate terminal bytes (repaint is the next refresh's job). Proven empty-output."
+    },
+    "wtouchln": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.TOUCH.NOOUTPUT"
+      ],
+      "note": "Marks window lines dirty/in-sync in memory; emits no immediate terminal bytes (repaint is the next refresh's job). Proven empty-output."
+    },
+    "wsyncup": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.TOUCH.NOOUTPUT"
+      ],
+      "note": "Marks window lines dirty/in-sync in memory; emits no immediate terminal bytes (repaint is the next refresh's job). Proven empty-output."
+    },
+    "wsyncdown": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.TOUCH.NOOUTPUT"
+      ],
+      "note": "Marks window lines dirty/in-sync in memory; emits no immediate terminal bytes (repaint is the next refresh's job). Proven empty-output."
+    },
+    "wcursyncup": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.TOUCH.NOOUTPUT"
+      ],
+      "note": "Marks window lines dirty/in-sync in memory; emits no immediate terminal bytes (repaint is the next refresh's job). Proven empty-output."
+    },
+    "syncok": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.TOUCH.NOOUTPUT"
+      ],
+      "note": "Marks window lines dirty/in-sync in memory; emits no immediate terminal bytes (repaint is the next refresh's job). Proven empty-output."
+    },
+    "is_linetouched": {
+      "status": "n_a",
+      "note": "Pure query of window touch/sync state; no terminal-output contract."
+    },
+    "is_wintouched": {
+      "status": "n_a",
+      "note": "Pure query of window touch/sync state; no terminal-output contract."
+    },
+    "is_syncok": {
+      "status": "n_a",
+      "note": "Pure query of window touch/sync state; no terminal-output contract."
+    },
+    "scrollok": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "idlok": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "idcok": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "immedok": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "leaveok": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "setscrreg": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "wsetscrreg": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "scrl": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "scroll": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "wscrl": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SCROLL.NOOUTPUT"
+      ],
+      "note": "Sets an output-option flag / scroll region, or scrolls window contents in memory; emits no immediate terminal bytes (output at the next refresh). Proven empty-output."
+    },
+    "is_idcok": {
+      "status": "n_a",
+      "note": "Pure query of an output-option flag / scroll region; no terminal-output contract."
+    },
+    "is_idlok": {
+      "status": "n_a",
+      "note": "Pure query of an output-option flag / scroll region; no terminal-output contract."
+    },
+    "is_immedok": {
+      "status": "n_a",
+      "note": "Pure query of an output-option flag / scroll region; no terminal-output contract."
+    },
+    "is_leaveok": {
+      "status": "n_a",
+      "note": "Pure query of an output-option flag / scroll region; no terminal-output contract."
+    },
+    "is_scrollok": {
+      "status": "n_a",
+      "note": "Pure query of an output-option flag / scroll region; no terminal-output contract."
+    },
+    "wgetscrreg": {
+      "status": "n_a",
+      "note": "Pure query of an output-option flag / scroll region; no terminal-output contract."
+    },
+    "def_prog_mode": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "def_prog_mode_sp": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "def_shell_mode": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "def_shell_mode_sp": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "reset_prog_mode": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "reset_prog_mode_sp": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "reset_shell_mode": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "reset_shell_mode_sp": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "savetty": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "savetty_sp": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "resetty": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "resetty_sp": {
+      "status": "n_a",
+      "note": "Saves/restores the tty's termios modes (tcgetattr/tcsetattr); manages terminal state with no terminal-output bytes to reconstruct."
+    },
+    "napms": {
+      "status": "n_a",
+      "note": "Millisecond sleep; a timing function with no terminal-output contract."
+    },
+    "napms_sp": {
+      "status": "n_a",
+      "note": "Millisecond sleep; a timing function with no terminal-output contract."
+    },
+    "ripoffline": {
+      "status": "n_a",
+      "note": "Reserves screen lines before initscr (a layout config call); no immediate terminal output."
+    },
+    "ripoffline_sp": {
+      "status": "n_a",
+      "note": "Reserves screen lines before initscr (a layout config call); no immediate terminal output."
+    },
+    "use_env": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "use_env_sp": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "use_tioctl": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "use_tioctl_sp": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "filter": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "filter_sp": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "nofilter": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "nofilter_sp": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "set_escdelay": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "set_escdelay_sp": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "set_tabsize": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "set_tabsize_sp": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "use_extended_names": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "use_legacy_coding": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "use_legacy_coding_sp": {
+      "status": "n_a",
+      "note": "Library configuration setter (use_env/use_tioctl/filter/escdelay/tabsize/extended-names/legacy-coding); changes ncurses behaviour, not terminal-display output."
+    },
+    "get_escdelay": {
+      "status": "n_a",
+      "note": "Pure query of the ESC-sequence read delay; no terminal-output contract."
+    },
+    "get_escdelay_sp": {
+      "status": "n_a",
+      "note": "Pure query of the ESC-sequence read delay; no terminal-output contract."
+    },
+    "delay_output": {
+      "status": "n_a",
+      "note": "Output-timing delay; like tputs padding it emits no bytes on the admitted xterm/normal-baud environment."
+    },
+    "delay_output_sp": {
+      "status": "n_a",
+      "note": "Output-timing delay; like tputs padding it emits no bytes on the admitted xterm/normal-baud environment."
+    },
+    "mcprint": {
+      "status": "n_a",
+      "note": "Sends data to the printer via print-mode caps; targets a printer device, not the terminal display (xterm has no printer caps)."
+    },
+    "mcprint_sp": {
+      "status": "n_a",
+      "note": "Sends data to the printer via print-mode caps; targets a printer device, not the terminal display (xterm has no printer caps)."
+    },
+    "delwin": {
+      "status": "n_a",
+      "note": "Frees a window; ncurses-native uses owned Window values (dropped normally), so there is nothing to emit."
+    },
+    "wgetparent": {
+      "status": "n_a",
+      "note": "Returns the parent window pointer; a pointer query with no terminal-output contract."
+    },
+    "start_color": {
+      "status": "n_a",
+      "note": "Initializes the colour subsystem; no immediate terminal output."
+    },
+    "start_color_sp": {
+      "status": "n_a",
+      "note": "Initializes the colour subsystem; no immediate terminal output."
+    },
+    "use_default_colors": {
+      "status": "n_a",
+      "note": "Configures default (-1) colours; library state with no immediate terminal output."
+    },
+    "use_default_colors_sp": {
+      "status": "n_a",
+      "note": "Configures default (-1) colours; library state with no immediate terminal output."
+    },
+    "assume_default_colors": {
+      "status": "n_a",
+      "note": "Configures default (-1) colours; library state with no immediate terminal output."
+    },
+    "assume_default_colors_sp": {
+      "status": "n_a",
+      "note": "Configures default (-1) colours; library state with no immediate terminal output."
+    },
+    "reset_color_pairs": {
+      "status": "n_a",
+      "note": "Resets the colour-pair table; library state with no terminal output."
+    },
+    "reset_color_pairs_sp": {
+      "status": "n_a",
+      "note": "Resets the colour-pair table; library state with no terminal output."
+    },
+    "_traceattr": {
+      "status": "n_a",
+      "note": "Writes diagnostic trace to the ncurses debug file (when tracing is enabled), not the terminal display; no terminal-output contract."
+    },
+    "_traceattr2": {
+      "status": "n_a",
+      "note": "Writes diagnostic trace to the ncurses debug file (when tracing is enabled), not the terminal display; no terminal-output contract."
+    },
+    "_tracechar": {
+      "status": "n_a",
+      "note": "Writes diagnostic trace to the ncurses debug file (when tracing is enabled), not the terminal display; no terminal-output contract."
+    },
+    "_tracechtype": {
+      "status": "n_a",
+      "note": "Writes diagnostic trace to the ncurses debug file (when tracing is enabled), not the terminal display; no terminal-output contract."
+    },
+    "_tracechtype2": {
+      "status": "n_a",
+      "note": "Writes diagnostic trace to the ncurses debug file (when tracing is enabled), not the terminal display; no terminal-output contract."
+    },
+    "_tracef": {
+      "status": "n_a",
+      "note": "Writes diagnostic trace to the ncurses debug file (when tracing is enabled), not the terminal display; no terminal-output contract."
+    },
+    "curses_trace": {
+      "status": "n_a",
+      "note": "Writes diagnostic trace to the ncurses debug file (when tracing is enabled), not the terminal display; no terminal-output contract."
+    },
+    "trace": {
+      "status": "n_a",
+      "note": "Writes diagnostic trace to the ncurses debug file (when tracing is enabled), not the terminal display; no terminal-output contract."
+    },
+    "resizeterm": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.RESIZE.NOOUTPUT"
+      ],
+      "note": "Resizes the screen/window structures in memory; emits no immediate terminal bytes (repaint at the next refresh). Proven empty-output."
+    },
+    "resizeterm_sp": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.RESIZE.NOOUTPUT"
+      ],
+      "note": "Resizes the screen/window structures in memory; emits no immediate terminal bytes (repaint at the next refresh). Proven empty-output."
+    },
+    "resize_term": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.RESIZE.NOOUTPUT"
+      ],
+      "note": "Resizes the screen/window structures in memory; emits no immediate terminal bytes (repaint at the next refresh). Proven empty-output."
+    },
+    "resize_term_sp": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.RESIZE.NOOUTPUT"
+      ],
+      "note": "Resizes the screen/window structures in memory; emits no immediate terminal bytes (repaint at the next refresh). Proven empty-output."
+    },
+    "is_term_resized": {
+      "status": "n_a",
+      "note": "Pure query: whether a resize to the given size would change anything; no terminal output."
+    },
+    "is_term_resized_sp": {
+      "status": "n_a",
+      "note": "Pure query: whether a resize to the given size would change anything; no terminal output."
+    },
+    "use_window": {
+      "status": "n_a",
+      "note": "Thread wrapper that runs a callback under a window/screen lock; no terminal-output contract of its own."
+    },
+    "use_screen": {
+      "status": "n_a",
+      "note": "Thread wrapper that runs a callback under a window/screen lock; no terminal-output contract of its own."
+    },
+    "mvgetch": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "mvwgetch": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "getstr": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "getnstr": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "wgetstr": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "wgetnstr": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "mvgetstr": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "mvgetnstr": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "mvwgetstr": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "mvwgetnstr": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "scanw": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "wscanw": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "mvscanw": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "mvwscanw": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "vwscanw": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "vw_scanw": {
+      "status": "n_a",
+      "note": "Interactive input: reads terminal input under a read-timing model; no deterministic terminal-output to reconstruct."
+    },
+    "ungetch": {
+      "status": "n_a",
+      "note": "Pushes a character back onto the input queue; no terminal output."
+    },
+    "ungetch_sp": {
+      "status": "n_a",
+      "note": "Pushes a character back onto the input queue; no terminal output."
+    },
+    "keypad": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "meta": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "cbreak": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "cbreak_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "nocbreak": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "nocbreak_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "raw": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "raw_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "noraw": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "noraw_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "echo": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "echo_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "noecho": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "noecho_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "nl": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "nl_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "nonl": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "nonl_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "halfdelay": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "halfdelay_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "nodelay": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "notimeout": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "timeout": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "wtimeout": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "intrflush": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "intrflush_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "typeahead": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "typeahead_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "qiflush": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "qiflush_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "noqiflush": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "noqiflush_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "flushinp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "flushinp_sp": {
+      "status": "n_a",
+      "note": "Input/tty mode or flag (keypad/cbreak/raw/echo/nl/delays/...); sets terminal-input state with no immediate terminal-output to reconstruct."
+    },
+    "is_cbreak": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_cbreak_sp": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_echo": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_echo_sp": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_nl": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_nl_sp": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_raw": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_raw_sp": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_keypad": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_nodelay": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "is_notimeout": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "wgetdelay": {
+      "status": "n_a",
+      "note": "Pure query of an input mode/flag; no terminal-output contract."
+    },
+    "keyok": {
+      "status": "n_a",
+      "note": "Key-binding registry management/query (enable/define/look up a key); no terminal-output contract."
+    },
+    "keyok_sp": {
+      "status": "n_a",
+      "note": "Key-binding registry management/query (enable/define/look up a key); no terminal-output contract."
+    },
+    "keybound": {
+      "status": "n_a",
+      "note": "Key-binding registry management/query (enable/define/look up a key); no terminal-output contract."
+    },
+    "keybound_sp": {
+      "status": "n_a",
+      "note": "Key-binding registry management/query (enable/define/look up a key); no terminal-output contract."
+    },
+    "define_key": {
+      "status": "n_a",
+      "note": "Key-binding registry management/query (enable/define/look up a key); no terminal-output contract."
+    },
+    "define_key_sp": {
+      "status": "n_a",
+      "note": "Key-binding registry management/query (enable/define/look up a key); no terminal-output contract."
+    },
+    "isendwin": {
+      "status": "n_a",
+      "note": "Pure query: whether endwin has been called; no terminal-output contract."
+    },
+    "isendwin_sp": {
+      "status": "n_a",
+      "note": "Pure query: whether endwin has been called; no terminal-output contract."
+    },
+    "set_term": {
+      "status": "n_a",
+      "note": "Global SCREEN management (select/free/pre-allocate); no terminal-output contract in the owned-value model."
+    },
+    "delscreen": {
+      "status": "n_a",
+      "note": "Global SCREEN management (select/free/pre-allocate); no terminal-output contract in the owned-value model."
+    },
+    "new_prescr": {
+      "status": "n_a",
+      "note": "Global SCREEN management (select/free/pre-allocate); no terminal-output contract in the owned-value model."
+    },
+    "getmouse": {
+      "status": "n_a",
+      "note": "Interactive mouse-event queue (read/push a decoded event); no deterministic terminal-output to reconstruct."
+    },
+    "getmouse_sp": {
+      "status": "n_a",
+      "note": "Interactive mouse-event queue (read/push a decoded event); no deterministic terminal-output to reconstruct."
+    },
+    "ungetmouse": {
+      "status": "n_a",
+      "note": "Interactive mouse-event queue (read/push a decoded event); no deterministic terminal-output to reconstruct."
+    },
+    "ungetmouse_sp": {
+      "status": "n_a",
+      "note": "Interactive mouse-event queue (read/push a decoded event); no deterministic terminal-output to reconstruct."
+    },
+    "mousemask": {
+      "status": "n_a",
+      "note": "Sets the reported mouse-event mask and enables tracking at runtime; the tracking sequence is emitted by a later refresh."
+    },
+    "mousemask_sp": {
+      "status": "n_a",
+      "note": "Sets the reported mouse-event mask and enables tracking at runtime; the tracking sequence is emitted by a later refresh."
+    },
+    "mouseinterval": {
+      "status": "n_a",
+      "note": "Gets/sets the click-resolution interval; runtime config with no terminal output."
+    },
+    "mouseinterval_sp": {
+      "status": "n_a",
+      "note": "Gets/sets the click-resolution interval; runtime config with no terminal output."
+    },
+    "has_mouse": {
+      "status": "n_a",
+      "note": "Runtime query: whether a mouse is currently enabled/detected (depends on mousemask), not a terminfo-only property."
+    },
+    "has_mouse_sp": {
+      "status": "n_a",
+      "note": "Runtime query: whether a mouse is currently enabled/detected (depends on mousemask), not a terminfo-only property."
+    },
+    "slk_touch": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_touch_sp": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_noutrefresh": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_noutrefresh_sp": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_clear": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_clear_sp": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_restore": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_restore_sp": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_refresh": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_refresh_sp": {
+      "status": "deferred",
+      "courts": [
+        "NCURSES.SLK.NOOUTPUT"
+      ],
+      "note": "Touch/clear/restore/refresh of the label line emit no immediate terminal bytes; the line is rendered at the buffered doupdate (a seed). Proven empty-output."
+    },
+    "slk_init": {
+      "status": "n_a",
+      "note": "Selects the soft-label format before initscr; layout config with no terminal output."
+    },
+    "slk_init_sp": {
+      "status": "n_a",
+      "note": "Selects the soft-label format before initscr; layout config with no terminal output."
+    },
+    "slk_attr": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attr_sp": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attr_off": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attr_on": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attr_set": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attr_set_sp": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attroff": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attroff_sp": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attron": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attron_sp": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attrset": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_attrset_sp": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_color": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "slk_color_sp": {
+      "status": "n_a",
+      "note": "Soft-label attribute/colour state; no immediate terminal output (applied when the label line is rendered)."
+    },
+    "init_color": {
+      "status": "n_a",
+      "note": "Redefines a colour's rgb; requires can_change_color (false on the admitted xterm), so it is a no-op with no terminal output."
+    },
+    "init_color_sp": {
+      "status": "n_a",
+      "note": "Redefines a colour's rgb; requires can_change_color (false on the admitted xterm), so it is a no-op with no terminal output."
+    },
+    "init_extended_color": {
+      "status": "n_a",
+      "note": "Redefines a colour's rgb; requires can_change_color (false on the admitted xterm), so it is a no-op with no terminal output."
+    },
+    "init_extended_color_sp": {
+      "status": "n_a",
+      "note": "Redefines a colour's rgb; requires can_change_color (false on the admitted xterm), so it is a no-op with no terminal output."
+    },
+    "extended_slk_color": {
+      "status": "n_a",
+      "note": "Soft-label colour (extended); label-line attribute state, no immediate terminal output."
+    },
+    "extended_slk_color_sp": {
+      "status": "n_a",
+      "note": "Soft-label colour (extended); label-line attribute state, no immediate terminal output."
+    },
+    "getwin": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "getwin_sp": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "putwin": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "scr_dump": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "scr_init": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "scr_init_sp": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "scr_restore": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "scr_restore_sp": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "scr_set": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    },
+    "scr_set_sp": {
+      "status": "n_a",
+      "note": "Serializes/loads a window or screen to/from a file in ncurses' private save format; not terminal-display output (the crate's scope)."
+    }
+  },
+  "groups": [
+    {
+      "id": "initscr",
+      "title": "Screen init & teardown (curs_initscr)",
+      "role": "lifecycle"
+    },
+    {
+      "id": "refresh",
+      "title": "Refresh & doupdate (curs_refresh)",
+      "role": "screen update"
+    },
+    {
+      "id": "move",
+      "title": "Cursor move & optimizer (curs_move / mvcur)",
+      "role": "cursor"
+    },
+    {
+      "id": "addch",
+      "title": "Add character (curs_addch)",
+      "role": "output"
+    },
+    {
+      "id": "addstr",
+      "title": "Add string (curs_addstr)",
+      "role": "output"
+    },
+    {
+      "id": "addchstr",
+      "title": "Add chstr (curs_addchstr)",
+      "role": "output"
+    },
+    {
+      "id": "insdel",
+      "title": "Insert / delete (curs_insch / insstr / deleteln)",
+      "role": "output"
+    },
+    {
+      "id": "inch",
+      "title": "Read from window (curs_inch / instr)",
+      "role": "introspection"
+    },
+    {
+      "id": "clear",
+      "title": "Erase (curs_clear)",
+      "role": "output"
+    },
+    {
+      "id": "attr",
+      "title": "Attributes (curs_attr)",
+      "role": "rendition"
+    },
+    {
+      "id": "color",
+      "title": "Color (curs_color)",
+      "role": "rendition"
+    },
+    {
+      "id": "bkgd",
+      "title": "Background (curs_bkgd)",
+      "role": "rendition"
+    },
+    {
+      "id": "getch",
+      "title": "Input: characters & strings (curs_getch / getstr / scanw)",
+      "role": "input"
+    },
+    {
+      "id": "inopts",
+      "title": "Input options & key handling (curs_inopts / util)",
+      "role": "input"
+    },
+    {
+      "id": "mouse",
+      "title": "Mouse (curs_mouse)",
+      "role": "input"
+    },
+    {
+      "id": "window",
+      "title": "Window create & manage (curs_window)",
+      "role": "model"
+    },
+    {
+      "id": "pad",
+      "title": "Pads (curs_pad)",
+      "role": "model"
+    },
+    {
+      "id": "border",
+      "title": "Borders & lines (curs_border)",
+      "role": "output"
+    },
+    {
+      "id": "scroll",
+      "title": "Scroll & output options (curs_scroll / outopts)",
+      "role": "screen update"
+    },
+    {
+      "id": "touch",
+      "title": "Touch & sync (curs_touch)",
+      "role": "screen update"
+    },
+    {
+      "id": "overlay",
+      "title": "Overlap (curs_overlay)",
+      "role": "model"
+    },
+    {
+      "id": "printw",
+      "title": "printw (curs_printw)",
+      "role": "output"
+    },
+    {
+      "id": "terminfo",
+      "title": "Terminfo & termcap (curs_terminfo / termcap)",
+      "role": "substrate"
+    },
+    {
+      "id": "termattrs",
+      "title": "Terminal queries (curs_termattrs)",
+      "role": "substrate"
+    },
+    {
+      "id": "kernel",
+      "title": "Modes & terminal state (curs_kernel)",
+      "role": "substrate"
+    },
+    {
+      "id": "scrdump",
+      "title": "Screen dump (curs_scr_dump)",
+      "role": "model"
+    },
+    {
+      "id": "slk",
+      "title": "Soft labels (curs_slk)",
+      "role": "addon"
+    },
+    {
+      "id": "beep",
+      "title": "Bell (curs_beep)",
+      "role": "output"
+    },
+    {
+      "id": "util",
+      "title": "Library config & util (curs_util / extensions)",
+      "role": "config"
+    },
+    {
+      "id": "resize",
+      "title": "Resize & threads (resizeterm / threads)",
+      "role": "config"
+    },
+    {
+      "id": "trace",
+      "title": "Trace (curs_trace)",
+      "role": "diagnostics"
+    },
+    {
+      "id": "uncat",
+      "title": "Other / uncategorized",
+      "role": "misc"
+    }
+  ],
+  "group_rules": [
+    {
+      "kind": "exact",
+      "value": "mvcur",
+      "group": "move"
+    },
+    {
+      "kind": "exact",
+      "value": "mvcur_sp",
+      "group": "move"
+    },
+    {
+      "kind": "exact",
+      "value": "move",
+      "group": "move"
+    },
+    {
+      "kind": "exact",
+      "value": "wmove",
+      "group": "move"
+    },
+    {
+      "kind": "exact",
+      "value": "initscr",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "newterm",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "newterm_sp",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "endwin",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "endwin_sp",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "isendwin",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "isendwin_sp",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "set_term",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "delscreen",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "new_prescr",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "exit_curses",
+      "group": "initscr"
+    },
+    {
+      "kind": "exact",
+      "value": "doupdate",
+      "group": "refresh"
+    },
+    {
+      "kind": "exact",
+      "value": "doupdate_sp",
+      "group": "refresh"
+    },
+    {
+      "kind": "exact",
+      "value": "refresh",
+      "group": "refresh"
+    },
+    {
+      "kind": "exact",
+      "value": "wrefresh",
+      "group": "refresh"
+    },
+    {
+      "kind": "exact",
+      "value": "wnoutrefresh",
+      "group": "refresh"
+    },
+    {
+      "kind": "exact",
+      "value": "redrawwin",
+      "group": "refresh"
+    },
+    {
+      "kind": "exact",
+      "value": "wredrawln",
+      "group": "refresh"
+    },
+    {
+      "kind": "prefix",
+      "value": "pnoutrefresh",
+      "group": "pad"
+    },
+    {
+      "kind": "prefix",
+      "value": "prefresh",
+      "group": "pad"
+    },
+    {
+      "kind": "prefix",
+      "value": "newpad",
+      "group": "pad"
+    },
+    {
+      "kind": "prefix",
+      "value": "subpad",
+      "group": "pad"
+    },
+    {
+      "kind": "prefix",
+      "value": "pechochar",
+      "group": "pad"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_pad",
+      "group": "pad"
+    },
+    {
+      "kind": "prefix",
+      "value": "slk_",
+      "group": "slk"
+    },
+    {
+      "kind": "prefix",
+      "value": "mouse",
+      "group": "mouse"
+    },
+    {
+      "kind": "prefix",
+      "value": "getmouse",
+      "group": "mouse"
+    },
+    {
+      "kind": "prefix",
+      "value": "ungetmouse",
+      "group": "mouse"
+    },
+    {
+      "kind": "prefix",
+      "value": "has_mouse",
+      "group": "mouse"
+    },
+    {
+      "kind": "prefix",
+      "value": "wenclose",
+      "group": "mouse"
+    },
+    {
+      "kind": "prefix",
+      "value": "wmouse_trafo",
+      "group": "mouse"
+    },
+    {
+      "kind": "prefix",
+      "value": "init_color",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "init_pair",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "init_extended",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "color_content",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "extended_color",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "extended_pair",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "extended_slk",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "pair_content",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "start_color",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "has_colors",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "can_change_color",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "alloc_pair",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "find_pair",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "free_pair",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "use_default_colors",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "assume_default_colors",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "reset_color_pairs",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "color_set",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "wcolor_set",
+      "group": "color"
+    },
+    {
+      "kind": "exact",
+      "value": "COLOR_PAIR",
+      "group": "color"
+    },
+    {
+      "kind": "exact",
+      "value": "PAIR_NUMBER",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "bkgd",
+      "group": "bkgd"
+    },
+    {
+      "kind": "prefix",
+      "value": "wbkgd",
+      "group": "bkgd"
+    },
+    {
+      "kind": "prefix",
+      "value": "getbkgd",
+      "group": "bkgd"
+    },
+    {
+      "kind": "prefix",
+      "value": "border",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "box",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "wborder",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "hline",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "vline",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvhline",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvvline",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwhline",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwvline",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "whline",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "wvline",
+      "group": "border"
+    },
+    {
+      "kind": "prefix",
+      "value": "overlay",
+      "group": "overlay"
+    },
+    {
+      "kind": "prefix",
+      "value": "overwrite",
+      "group": "overlay"
+    },
+    {
+      "kind": "prefix",
+      "value": "copywin",
+      "group": "overlay"
+    },
+    {
+      "kind": "prefix",
+      "value": "printw",
+      "group": "printw"
+    },
+    {
+      "kind": "prefix",
+      "value": "wprintw",
+      "group": "printw"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvprintw",
+      "group": "printw"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwprintw",
+      "group": "printw"
+    },
+    {
+      "kind": "prefix",
+      "value": "vwprintw",
+      "group": "printw"
+    },
+    {
+      "kind": "prefix",
+      "value": "vw_printw",
+      "group": "printw"
+    },
+    {
+      "kind": "prefix",
+      "value": "scr_",
+      "group": "scrdump"
+    },
+    {
+      "kind": "prefix",
+      "value": "getwin",
+      "group": "scrdump"
+    },
+    {
+      "kind": "prefix",
+      "value": "putwin",
+      "group": "scrdump"
+    },
+    {
+      "kind": "prefix",
+      "value": "resize",
+      "group": "resize"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_term_resized",
+      "group": "resize"
+    },
+    {
+      "kind": "prefix",
+      "value": "use_window",
+      "group": "resize"
+    },
+    {
+      "kind": "prefix",
+      "value": "use_screen",
+      "group": "resize"
+    },
+    {
+      "kind": "prefix",
+      "value": "trace",
+      "group": "trace"
+    },
+    {
+      "kind": "prefix",
+      "value": "_trace",
+      "group": "trace"
+    },
+    {
+      "kind": "prefix",
+      "value": "curses_trace",
+      "group": "trace"
+    },
+    {
+      "kind": "prefix",
+      "value": "tget",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "tiget",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "tparm",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "tiparm",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "tiscan",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "tputs",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "tgoto",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "putp",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "setupterm",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "set_curterm",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "del_curterm",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "restartterm",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "exit_terminfo",
+      "group": "terminfo"
+    },
+    {
+      "kind": "prefix",
+      "value": "define_key",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "termattrs",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "termname",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "longname",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "baudrate",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "erasechar",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "killchar",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "has_ic",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "has_il",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "curses_version",
+      "group": "termattrs"
+    },
+    {
+      "kind": "prefix",
+      "value": "def_prog_mode",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "def_shell_mode",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "reset_prog_mode",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "reset_shell_mode",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "savetty",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "resetty",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "curs_set",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "napms",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "ripoffline",
+      "group": "kernel"
+    },
+    {
+      "kind": "prefix",
+      "value": "beep",
+      "group": "beep"
+    },
+    {
+      "kind": "prefix",
+      "value": "flash",
+      "group": "beep"
+    },
+    {
+      "kind": "prefix",
+      "value": "clear",
+      "group": "clear"
+    },
+    {
+      "kind": "prefix",
+      "value": "wclear",
+      "group": "clear"
+    },
+    {
+      "kind": "prefix",
+      "value": "erase",
+      "group": "clear"
+    },
+    {
+      "kind": "prefix",
+      "value": "werase",
+      "group": "clear"
+    },
+    {
+      "kind": "prefix",
+      "value": "clrtobot",
+      "group": "clear"
+    },
+    {
+      "kind": "prefix",
+      "value": "wclrtobot",
+      "group": "clear"
+    },
+    {
+      "kind": "prefix",
+      "value": "clrtoeol",
+      "group": "clear"
+    },
+    {
+      "kind": "prefix",
+      "value": "wclrtoeol",
+      "group": "clear"
+    },
+    {
+      "kind": "exact",
+      "value": "is_cleared",
+      "group": "clear"
+    },
+    {
+      "kind": "prefix",
+      "value": "attr_",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "attron",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "attroff",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "attrset",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "wattr",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "standout",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "standend",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "wstand",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "chgat",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "wchgat",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvchgat",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwchgat",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "vidattr",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "vidputs",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "getattrs",
+      "group": "attr"
+    },
+    {
+      "kind": "prefix",
+      "value": "color_set",
+      "group": "color"
+    },
+    {
+      "kind": "prefix",
+      "value": "insch",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "winsch",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvinsch",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwinsch",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "insstr",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "insnstr",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "winsstr",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "winsnstr",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvinsstr",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvinsnstr",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwinsstr",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwinsnstr",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "insdelln",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "winsdelln",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "insertln",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "winsertln",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "deleteln",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "wdeleteln",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "delch",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "wdelch",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvdelch",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwdelch",
+      "group": "insdel"
+    },
+    {
+      "kind": "prefix",
+      "value": "inchnstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "inchstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "innstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "instr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "inch",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "winch",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "winnstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "winstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "winchnstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "winchstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvinch",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvinnstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvinstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvinchnstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvinchstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwinch",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwinnstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwinstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwinchnstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwinchstr",
+      "group": "inch"
+    },
+    {
+      "kind": "prefix",
+      "value": "addchnstr",
+      "group": "addchstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "addchstr",
+      "group": "addchstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "waddchnstr",
+      "group": "addchstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "waddchstr",
+      "group": "addchstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvaddchnstr",
+      "group": "addchstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvaddchstr",
+      "group": "addchstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwaddchnstr",
+      "group": "addchstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwaddchstr",
+      "group": "addchstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "addnstr",
+      "group": "addstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "addstr",
+      "group": "addstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "waddnstr",
+      "group": "addstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "waddstr",
+      "group": "addstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvaddnstr",
+      "group": "addstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvaddstr",
+      "group": "addstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwaddnstr",
+      "group": "addstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwaddstr",
+      "group": "addstr"
+    },
+    {
+      "kind": "prefix",
+      "value": "addch",
+      "group": "addch"
+    },
+    {
+      "kind": "prefix",
+      "value": "waddch",
+      "group": "addch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvaddch",
+      "group": "addch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwaddch",
+      "group": "addch"
+    },
+    {
+      "kind": "prefix",
+      "value": "echochar",
+      "group": "addch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wechochar",
+      "group": "addch"
+    },
+    {
+      "kind": "prefix",
+      "value": "getnstr",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "getstr",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wgetnstr",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wgetstr",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvgetnstr",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvgetstr",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwgetnstr",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwgetstr",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "getch",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wgetch",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvgetch",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwgetch",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "ungetch",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "has_key",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "scanw",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wscanw",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvscanw",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwscanw",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "vwscanw",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "vw_scanw",
+      "group": "getch"
+    },
+    {
+      "kind": "prefix",
+      "value": "keypad",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "keyname",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "keyok",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "keybound",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "key_defined",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "meta",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "nodelay",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "notimeout",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "halfdelay",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "timeout",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "wtimeout",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "cbreak",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "nocbreak",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_cbreak",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "raw",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "noraw",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_raw",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "echo",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "noecho",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_echo",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "nl",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "nonl",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_nl",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "intrflush",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "typeahead",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "qiflush",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "noqiflush",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "flushinp",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "wgetdelay",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_nodelay",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_notimeout",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_keypad",
+      "group": "inopts"
+    },
+    {
+      "kind": "prefix",
+      "value": "scrl",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "scroll",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "wscrl",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "scrollok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "setscrreg",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "wsetscrreg",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "wgetscrreg",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "idlok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "idcok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "immedok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "leaveok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "clearok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_idcok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_idlok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_immedok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_leaveok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_scrollok",
+      "group": "scroll"
+    },
+    {
+      "kind": "prefix",
+      "value": "touchwin",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "touchline",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "untouchwin",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wtouchln",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_linetouched",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_wintouched",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wsyncup",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wsyncdown",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "wcursyncup",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "syncok",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_syncok",
+      "group": "touch"
+    },
+    {
+      "kind": "prefix",
+      "value": "newwin",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "delwin",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "derwin",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "subwin",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvwin",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "mvderwin",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "dupwin",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "wresize",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "wgetparent",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "is_subwin",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "getbegx",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "getbegy",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "getcurx",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "getcury",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "getmaxx",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "getmaxy",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "getparx",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "getpary",
+      "group": "window"
+    },
+    {
+      "kind": "prefix",
+      "value": "use_env",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "use_tioctl",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "filter",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "nofilter",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "set_escdelay",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "get_escdelay",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "set_tabsize",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "use_extended_names",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "use_legacy_coding",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "delay_output",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "mcprint",
+      "group": "util"
+    },
+    {
+      "kind": "prefix",
+      "value": "mouseinterval",
+      "group": "mouse"
+    }
+  ],
+  "counterparts": {
+    "beep": {
+      "rust": "bell::beep",
+      "status": "full",
+      "courts": [
+        "NCURSES.CAP.BEL"
+      ],
+      "note": "Emits the bel capability (xterm: 0x07); a pure output cap with no window state."
+    },
+    "beep_sp": {
+      "rust": "bell::beep",
+      "status": "full",
+      "courts": [
+        "NCURSES.CAP.BEL"
+      ],
+      "note": "Byte-identical to beep; the _sp screen selection is not modeled but emits the same bel byte."
+    },
+    "flash": {
+      "rust": "bell::flash",
+      "status": "full",
+      "courts": [
+        "NCURSES.CAP.FLASH"
+      ],
+      "note": "Emits the flash capability; the $<100/> delay is a real-time pause, not bytes, so the stream is the DECSCNM on/off pair."
+    },
+    "flash_sp": {
+      "rust": "bell::flash",
+      "status": "full",
+      "courts": [
+        "NCURSES.CAP.FLASH"
+      ],
+      "note": "Byte-identical to flash; the _sp screen selection is not modeled."
+    },
+    "tigetstr": {
+      "rust": "terminfo::Terminfo::tigetstr",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Reconstructed from a native compiled-terminfo reader; matches ncurses tigetstr over every standard string cap of the xterm entry (return semantics: present/absent/not-a-string)."
+    },
+    "tigetstr_sp": {
+      "rust": "terminfo::Terminfo::tigetstr",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Same lookup; the _sp screen-pointer global state is not modeled but the returned value is identical."
+    },
+    "tigetnum": {
+      "rust": "terminfo::Terminfo::tigetnum",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Reconstructed terminfo numeric lookup; matches ncurses tigetnum over every standard numeric cap (value / -1 absent / -2 not-a-number)."
+    },
+    "tigetnum_sp": {
+      "rust": "terminfo::Terminfo::tigetnum",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Same lookup; _sp variant not modeled, value identical."
+    },
+    "tigetflag": {
+      "rust": "terminfo::Terminfo::tigetflag",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Reconstructed terminfo boolean lookup; matches ncurses tigetflag over every standard boolean cap (1 / 0 / -1 not-a-boolean)."
+    },
+    "tigetflag_sp": {
+      "rust": "terminfo::Terminfo::tigetflag",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Same lookup; _sp variant not modeled, value identical."
+    },
+    "tparm": {
+      "rust": "terminfo::tparm",
+      "status": "full",
+      "courts": [
+        "NCURSES.TPARM"
+      ],
+      "note": "Full parameterized-string stack machine; matches ncurses tparm byte-for-byte over the xterm parameterized caps (cup/setaf/sgr/setf/...) and synthetic printf specs. Padding ($<...>) is tputs' job; static-variable persistence across calls not modeled."
+    },
+    "tparm_sp": {
+      "rust": "terminfo::tparm",
+      "status": "full",
+      "courts": [
+        "NCURSES.TPARM"
+      ],
+      "note": "Same evaluator; the _sp screen-pointer variant is not modeled but the bytes are identical."
+    },
+    "tiparm": {
+      "rust": "terminfo::tparm",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TPARM"
+      ],
+      "note": "Shares the tparm evaluator (byte output identical for these caps); tiparm's explicit-typed variadic API is not separately reconstructed/courted."
+    },
+    "tputs": {
+      "rust": "terminfo::tputs",
+      "status": "full",
+      "courts": [
+        "NCURSES.TPUTS"
+      ],
+      "note": "Padding processor: strips $<...> specs; matches ncurses tputs byte-for-byte under the admitted xterm pty. Baud/pad_char-dependent pad bytes on slow terminals not modeled (non-claim)."
+    },
+    "tputs_sp": {
+      "rust": "terminfo::tputs",
+      "status": "full",
+      "courts": [
+        "NCURSES.TPUTS"
+      ],
+      "note": "Same processing; _sp screen-pointer variant not modeled, bytes identical."
+    },
+    "putp": {
+      "rust": "terminfo::putp",
+      "status": "full",
+      "courts": [
+        "NCURSES.TPUTS"
+      ],
+      "note": "tputs to stdout (affcnt 1); emitted bytes are exactly tputs of the string."
+    },
+    "putp_sp": {
+      "rust": "terminfo::putp",
+      "status": "full",
+      "courts": [
+        "NCURSES.TPUTS"
+      ],
+      "note": "Same as putp; _sp variant not modeled, bytes identical."
+    },
+    "mvcur": {
+      "rust": "cursor::mvcur",
+      "status": "full",
+      "courts": [
+        "NCURSES.MVCUR",
+        "NCURSES.CAP.CUP",
+        "NCURSES.CAP.CUU1",
+        "NCURSES.CAP.HOME"
+      ],
+      "note": "Clean-room reproduction of lib_mvcur.c's onscreen_mvcur tactic enumeration scored by relative_move with the static sample-parameter cost model from _nc_mvcur_init (strict-< tie-break, ovw=FALSE per public mvcur(3)). Verified byte-exact against real libncurses for ALL 23409 pairs of a 153x153 sampled (from -> to) grid on an 80x24 xterm pty (court NCURSES.MVCUR); the offline replay is tests/mvcur_matrix.rs."
+    },
+    "mvcur_sp": {
+      "rust": "cursor::mvcur",
+      "status": "scaffold",
+      "note": "Same byte producer; the screen-pointer (_sp) reentrant variant is not modeled."
+    },
+    "clear": {
+      "rust": "screen::clear",
+      "status": "partial",
+      "courts": [
+        "NCURSES.CAP.CLEAR"
+      ],
+      "note": "Emits the clear_screen capability bytes; not the full clear() window-state semantics."
+    },
+    "wclear": {
+      "rust": "screen::clear",
+      "status": "partial",
+      "courts": [
+        "NCURSES.CAP.CLEAR"
+      ],
+      "note": "Same clear_screen bytes; no WINDOW model."
+    },
+    "clrtoeol": {
+      "rust": "screen::clr_eol",
+      "status": "partial",
+      "courts": [
+        "NCURSES.CAP.EL"
+      ],
+      "note": "Emits the el (clr_eol) capability bytes."
+    },
+    "wclrtoeol": {
+      "rust": "screen::clr_eol",
+      "status": "partial",
+      "courts": [
+        "NCURSES.CAP.EL"
+      ],
+      "note": "Same el bytes; no WINDOW model."
+    },
+    "clrtobot": {
+      "rust": "screen::clr_eos",
+      "status": "partial",
+      "courts": [
+        "NCURSES.CAP.ED"
+      ],
+      "note": "Emits the ed (clr_eos) capability bytes."
+    },
+    "wclrtobot": {
+      "rust": "screen::clr_eos",
+      "status": "partial",
+      "courts": [
+        "NCURSES.CAP.ED"
+      ],
+      "note": "Same ed bytes; no WINDOW model."
+    },
+    "color_set": {
+      "rust": "window::Window::color_set",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Sets the active colour pair on the cell grid; matched to ncurses via winch colour bits."
+    },
+    "wcolor_set": {
+      "rust": "window::Window::color_set",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Sets the active colour pair on the cell grid; matched to ncurses via winch colour bits."
+    },
+    "initscr": {
+      "rust": "term::INIT_PROLOGUE",
+      "status": "divergent",
+      "courts": [
+        "NCURSES.BYTE.FRAME.FULL"
+      ],
+      "note": "Emits the init prologue; against the in-repo ncurses 6.4 pty oracle the composite framing diverges (emission order + feature extras), recorded not matched."
+    },
+    "endwin": {
+      "rust": "term::TEARDOWN_EPILOGUE",
+      "status": "divergent",
+      "courts": [
+        "NCURSES.BYTE.FRAME.FULL"
+      ],
+      "note": "Emits the teardown epilogue; same recorded framing divergence as initscr against the in-repo oracle."
+    },
+    "init_pair": {
+      "rust": "color::Palette::init_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "Registers a colour pair; pair_content matched to ncurses."
+    },
+    "attron": {
+      "rust": "window::Window::attron",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns attribute bits on for subsequent writes; cell attributes matched to ncurses A_* via winch."
+    },
+    "attroff": {
+      "rust": "window::Window::attroff",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns attribute bits off; cell attributes matched to ncurses via winch."
+    },
+    "attrset": {
+      "rust": "window::Window::attrset",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Sets the active attributes; cell attributes matched to ncurses via winch."
+    },
+    "wattron": {
+      "rust": "window::Window::attron",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns attribute bits on for subsequent writes; cell attributes matched to ncurses A_* via winch."
+    },
+    "wattroff": {
+      "rust": "window::Window::attroff",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns attribute bits off; cell attributes matched to ncurses via winch."
+    },
+    "wattrset": {
+      "rust": "window::Window::attrset",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Sets the active attributes; cell attributes matched to ncurses via winch."
+    },
+    "standout": {
+      "rust": "window::Window::standout",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns on A_STANDOUT; matched via winch."
+    },
+    "standend": {
+      "rust": "window::Window::standend",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns all attributes off; matched via winch."
+    },
+    "doupdate": {
+      "rust": "update::Screen::doupdate",
+      "status": "partial",
+      "courts": [
+        "NCURSES.DOUPDATE"
+      ],
+      "note": "Clean-room reproduction of tty_update.c (doupdate/ClrUpdate/TransformLine/PutRange/EmitRange/ClrToEOL/ClrBottom) for the plain-text (A_NORMAL, no color) path, reusing the byte-exact mvcur/mvcur_ovw for cursor motion. Byte-exact vs real ncurses on ALL 19 court scenarios (NCURSES.DOUPDATE): clear+paint, overwrite, multi-line, scattered runs, leading-blank reposition, clr_eol/clr_bol/clr_eos, ich/dch insert/delete shifting, ech and rep run-coalescing, and the mvcur ovw=TRUE GoTo overwrite (OPT-01a closed). Attribute/color SGR (OPT-03), xmc, bce, hardware scroll, and the right-margin wrap corner are out of this increment."
+    },
+    "refresh": {
+      "rust": "update::Screen::doupdate",
+      "status": "partial",
+      "courts": [
+        "NCURSES.DOUPDATE"
+      ],
+      "note": "wrefresh(stdscr) = wnoutrefresh + doupdate; the doupdate plain-text screen-diff is reproduced byte-exact for the courted scenarios (NCURSES.DOUPDATE). The wnoutrefresh window-to-newscr copy and pad/sub-window clipping are modeled by the Window cell grid, not yet courted end-to-end."
+    },
+    "wnoutrefresh": {
+      "rust": "update::Screen::doupdate",
+      "status": "partial",
+      "courts": [
+        "NCURSES.DOUPDATE"
+      ],
+      "note": "The newscr assembly feeds the same byte-exact doupdate diff (NCURSES.DOUPDATE). Full WINDOW-to-newscr copy semantics (clipping, leaveok, immedok) are partial."
+    },
+    "wrefresh": {
+      "rust": "update::Screen::doupdate",
+      "status": "partial",
+      "courts": [
+        "NCURSES.DOUPDATE"
+      ],
+      "note": "wnoutrefresh + doupdate; the doupdate plain-text screen-diff is byte-exact for the courted scenarios (NCURSES.DOUPDATE), reusing the byte-exact mvcur."
+    },
+    "setupterm": {
+      "rust": "terminfo::Terminfo::load",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Reconstructs the load-by-$TERM + compiled-entry parse path; matched against ncurses across 9 terminals (incl. the 32-bit-number format). Runtime cur_term/baud/mode setup and use_env cols/lines augmentation are not modeled (non-claim)."
+    },
+    "restartterm": {
+      "rust": "terminfo::Terminfo::load",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Re-reads the entry for a term name via the same loader; full restartterm tty/mode restoration is not modeled."
+    },
+    "restartterm_sp": {
+      "rust": "terminfo::Terminfo::load",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "Re-reads the entry for a term name via the same loader; full restartterm tty/mode restoration is not modeled."
+    },
+    "tgetflag": {
+      "rust": "terminfo::Terminfo::tgetflag",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "Termcap boolean lookup by 2-letter code; matches ncurses (44/44 codes)."
+    },
+    "tgetflag_sp": {
+      "rust": "terminfo::Terminfo::tgetflag",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "Termcap boolean lookup by 2-letter code; matches ncurses (44/44 codes)."
+    },
+    "tgetnum": {
+      "rust": "terminfo::Terminfo::tgetnum",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "Termcap numeric lookup by code; matches ncurses (39/39 codes)."
+    },
+    "tgetnum_sp": {
+      "rust": "terminfo::Terminfo::tgetnum",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "Termcap numeric lookup by code; matches ncurses (39/39 codes)."
+    },
+    "tgetstr": {
+      "rust": "terminfo::Terminfo::tgetstr",
+      "status": "divergent",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "Returns the terminfo string for a termcap code; matches 411/414. Diverges on the few codes ncurses' termcap emulation massages/synthesizes (e.g. 'me' -> \\E[0m vs raw sgr0; 'ML' margin cap). Recorded in NCURSES.TERMCAP."
+    },
+    "tgetstr_sp": {
+      "rust": "terminfo::Terminfo::tgetstr",
+      "status": "divergent",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "Returns the terminfo string for a termcap code; matches 411/414. Diverges on the few codes ncurses' termcap emulation massages/synthesizes (e.g. 'me' -> \\E[0m vs raw sgr0; 'ML' margin cap). Recorded in NCURSES.TERMCAP."
+    },
+    "tgoto": {
+      "rust": "terminfo::tgoto",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "tgoto(cap,col,row) == tparm(cap,row,col); matches ncurses over the cup sweep."
+    },
+    "tgoto_sp": {
+      "rust": "terminfo::tgoto",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "tgoto(cap,col,row) == tparm(cap,row,col); matches ncurses over the cup sweep."
+    },
+    "tgetent": {
+      "rust": "terminfo::Terminfo::load",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "Loads the entry by name via the database loader; full tgetent buffer/area semantics and termcap-file fallback not modeled."
+    },
+    "tgetent_sp": {
+      "rust": "terminfo::Terminfo::load",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMCAP"
+      ],
+      "note": "Loads the entry by name via the database loader; full tgetent buffer/area semantics and termcap-file fallback not modeled."
+    },
+    "tiparm_s": {
+      "rust": "terminfo::tparm",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TPARM"
+      ],
+      "note": "Bounded-buffer variant of tiparm; shares the tparm evaluator (identical bytes for these caps). The explicit buffer-size-limit API is not separately modelled."
+    },
+    "doupdate_sp": {
+      "rust": "screen::single_field_repaint",
+      "status": "scaffold",
+      "note": "Same single-shape repaint seed as doupdate; the _sp screen-pointer variant is not modelled."
+    },
+    "longname": {
+      "rust": "terminfo::Terminfo::longname",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMATTRS"
+      ],
+      "note": "Verbose terminal description (last alias); matches ncurses across 9 terminals."
+    },
+    "longname_sp": {
+      "rust": "terminfo::Terminfo::longname",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMATTRS"
+      ],
+      "note": "Verbose terminal description (last alias); matches ncurses across 9 terminals."
+    },
+    "termname": {
+      "rust": "terminfo::Terminfo::termname",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMATTRS"
+      ],
+      "note": "Primary terminal name (first alias, <=14 bytes); matches ncurses across 9 terminals."
+    },
+    "termname_sp": {
+      "rust": "terminfo::Terminfo::termname",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMATTRS"
+      ],
+      "note": "Primary terminal name (first alias, <=14 bytes); matches ncurses across 9 terminals."
+    },
+    "has_ic": {
+      "rust": "terminfo::Terminfo::has_ic",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMATTRS"
+      ],
+      "note": "Insert-character capability derived from terminfo; matches ncurses across 9 terminals."
+    },
+    "has_ic_sp": {
+      "rust": "terminfo::Terminfo::has_ic",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMATTRS"
+      ],
+      "note": "Insert-character capability derived from terminfo; matches ncurses across 9 terminals."
+    },
+    "has_il": {
+      "rust": "terminfo::Terminfo::has_il",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMATTRS"
+      ],
+      "note": "Insert/delete-line capability derived from terminfo; matches ncurses across 9 terminals."
+    },
+    "has_il_sp": {
+      "rust": "terminfo::Terminfo::has_il",
+      "status": "full",
+      "courts": [
+        "NCURSES.TERMATTRS"
+      ],
+      "note": "Insert/delete-line capability derived from terminfo; matches ncurses across 9 terminals."
+    },
+    "curs_set": {
+      "rust": "terminfo::Terminfo::curs_set",
+      "status": "full",
+      "courts": [
+        "NCURSES.CURS_SET"
+      ],
+      "note": "Cursor-visibility selection reconstructed from terminfo (civis/cnorm/cvvis via tputs); matches ncurses' resolved caps."
+    },
+    "curs_set_sp": {
+      "rust": "terminfo::Terminfo::curs_set",
+      "status": "full",
+      "courts": [
+        "NCURSES.CURS_SET"
+      ],
+      "note": "Cursor-visibility selection reconstructed from terminfo (civis/cnorm/cvvis via tputs); matches ncurses' resolved caps."
+    },
+    "addch": {
+      "rust": "window::Window::addch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Writes a printable char/newline into the window cell grid (wrap/clear-to-EOL/clip); state matched to ncurses by winch readback."
+    },
+    "waddch": {
+      "rust": "window::Window::addch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Writes a printable char/newline into the window cell grid (wrap/clear-to-EOL/clip); state matched to ncurses by winch readback."
+    },
+    "mvaddch": {
+      "rust": "window::Window::addch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Writes a printable char/newline into the window cell grid (wrap/clear-to-EOL/clip); state matched to ncurses by winch readback."
+    },
+    "mvwaddch": {
+      "rust": "window::Window::addch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Writes a printable char/newline into the window cell grid (wrap/clear-to-EOL/clip); state matched to ncurses by winch readback."
+    },
+    "echochar": {
+      "rust": "window::Window::addch",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Add reconstructed in the cell grid; the echo's immediate refresh is the doupdate seed (not separately courted)."
+    },
+    "wechochar": {
+      "rust": "window::Window::addch",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Add reconstructed in the cell grid; the echo's immediate refresh is the doupdate seed (not separately courted)."
+    },
+    "addstr": {
+      "rust": "window::Window::addstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Adds a byte string into the cell grid via addch; state matched to ncurses by winch readback. The n-variants' length limit is the caller's slice."
+    },
+    "waddstr": {
+      "rust": "window::Window::addstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Adds a byte string into the cell grid via addch; state matched to ncurses by winch readback. The n-variants' length limit is the caller's slice."
+    },
+    "mvaddstr": {
+      "rust": "window::Window::addstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Adds a byte string into the cell grid via addch; state matched to ncurses by winch readback. The n-variants' length limit is the caller's slice."
+    },
+    "mvwaddstr": {
+      "rust": "window::Window::addstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Adds a byte string into the cell grid via addch; state matched to ncurses by winch readback. The n-variants' length limit is the caller's slice."
+    },
+    "addnstr": {
+      "rust": "window::Window::addstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Adds a byte string into the cell grid via addch; state matched to ncurses by winch readback. The n-variants' length limit is the caller's slice."
+    },
+    "waddnstr": {
+      "rust": "window::Window::addstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Adds a byte string into the cell grid via addch; state matched to ncurses by winch readback. The n-variants' length limit is the caller's slice."
+    },
+    "mvaddnstr": {
+      "rust": "window::Window::addstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Adds a byte string into the cell grid via addch; state matched to ncurses by winch readback. The n-variants' length limit is the caller's slice."
+    },
+    "mvwaddnstr": {
+      "rust": "window::Window::addstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Adds a byte string into the cell grid via addch; state matched to ncurses by winch readback. The n-variants' length limit is the caller's slice."
+    },
+    "inch": {
+      "rust": "window::Window::inch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads a cell's character from the window grid; the court reads ncurses back the same way. Attribute/chtype bits are not modelled."
+    },
+    "winch": {
+      "rust": "window::Window::inch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads a cell's character from the window grid; the court reads ncurses back the same way. Attribute/chtype bits are not modelled."
+    },
+    "mvinch": {
+      "rust": "window::Window::inch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads a cell's character from the window grid; the court reads ncurses back the same way. Attribute/chtype bits are not modelled."
+    },
+    "mvwinch": {
+      "rust": "window::Window::inch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads a cell's character from the window grid; the court reads ncurses back the same way. Attribute/chtype bits are not modelled."
+    },
+    "move": {
+      "rust": "window::Window::move_to",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Sets the window's logical cursor position; emits no bytes and the resulting position is matched to ncurses by the window-state court."
+    },
+    "wmove": {
+      "rust": "window::Window::move_to",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Sets the window's logical cursor position; emits no bytes and the resulting position is matched to ncurses by the window-state court."
+    },
+    "erase": {
+      "rust": "window::Window::erase",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Clears the window cell grid to blanks; emits no immediate bytes and the resulting grid is matched to ncurses by the window-state court."
+    },
+    "werase": {
+      "rust": "window::Window::erase",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Clears the window cell grid to blanks; emits no immediate bytes and the resulting grid is matched to ncurses by the window-state court."
+    },
+    "insch": {
+      "rust": "window::Window::insch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a char at the cursor, shifting the line right (last col lost); state matched by winch readback."
+    },
+    "winsch": {
+      "rust": "window::Window::insch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a char at the cursor, shifting the line right (last col lost); state matched by winch readback."
+    },
+    "mvinsch": {
+      "rust": "window::Window::insch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a char at the cursor, shifting the line right (last col lost); state matched by winch readback."
+    },
+    "mvwinsch": {
+      "rust": "window::Window::insch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a char at the cursor, shifting the line right (last col lost); state matched by winch readback."
+    },
+    "insstr": {
+      "rust": "window::Window::insstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a string at the cursor (line shifts right; cursor stays); state matched by winch readback. The n-variants' limit is the caller's slice."
+    },
+    "insnstr": {
+      "rust": "window::Window::insstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a string at the cursor (line shifts right; cursor stays); state matched by winch readback. The n-variants' limit is the caller's slice."
+    },
+    "winsstr": {
+      "rust": "window::Window::insstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a string at the cursor (line shifts right; cursor stays); state matched by winch readback. The n-variants' limit is the caller's slice."
+    },
+    "winsnstr": {
+      "rust": "window::Window::insstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a string at the cursor (line shifts right; cursor stays); state matched by winch readback. The n-variants' limit is the caller's slice."
+    },
+    "mvinsstr": {
+      "rust": "window::Window::insstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a string at the cursor (line shifts right; cursor stays); state matched by winch readback. The n-variants' limit is the caller's slice."
+    },
+    "mvinsnstr": {
+      "rust": "window::Window::insstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a string at the cursor (line shifts right; cursor stays); state matched by winch readback. The n-variants' limit is the caller's slice."
+    },
+    "mvwinsstr": {
+      "rust": "window::Window::insstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a string at the cursor (line shifts right; cursor stays); state matched by winch readback. The n-variants' limit is the caller's slice."
+    },
+    "mvwinsnstr": {
+      "rust": "window::Window::insstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a string at the cursor (line shifts right; cursor stays); state matched by winch readback. The n-variants' limit is the caller's slice."
+    },
+    "delch": {
+      "rust": "window::Window::delch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Deletes the char at the cursor, shifting the line left (last col blank); state matched by winch readback."
+    },
+    "wdelch": {
+      "rust": "window::Window::delch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Deletes the char at the cursor, shifting the line left (last col blank); state matched by winch readback."
+    },
+    "mvdelch": {
+      "rust": "window::Window::delch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Deletes the char at the cursor, shifting the line left (last col blank); state matched by winch readback."
+    },
+    "mvwdelch": {
+      "rust": "window::Window::delch",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Deletes the char at the cursor, shifting the line left (last col blank); state matched by winch readback."
+    },
+    "deleteln": {
+      "rust": "window::Window::deleteln",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Deletes the cursor line, shifting lower lines up (bottom blank); state matched by winch readback."
+    },
+    "wdeleteln": {
+      "rust": "window::Window::deleteln",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Deletes the cursor line, shifting lower lines up (bottom blank); state matched by winch readback."
+    },
+    "insertln": {
+      "rust": "window::Window::insertln",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a blank line at the cursor row, shifting lower lines down (bottom lost); state matched by winch readback."
+    },
+    "winsertln": {
+      "rust": "window::Window::insertln",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts a blank line at the cursor row, shifting lower lines down (bottom lost); state matched by winch readback."
+    },
+    "insdelln": {
+      "rust": "window::Window::insdelln",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts/deletes n lines at the cursor row; state matched by winch readback."
+    },
+    "winsdelln": {
+      "rust": "window::Window::insdelln",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Inserts/deletes n lines at the cursor row; state matched by winch readback."
+    },
+    "instr": {
+      "rust": "window::Window::instr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads characters from the cursor to end of row; the cells it returns are validated by the window-state court."
+    },
+    "innstr": {
+      "rust": "window::Window::instr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads characters from the cursor to end of row; the cells it returns are validated by the window-state court."
+    },
+    "winstr": {
+      "rust": "window::Window::instr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads characters from the cursor to end of row; the cells it returns are validated by the window-state court."
+    },
+    "winnstr": {
+      "rust": "window::Window::instr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads characters from the cursor to end of row; the cells it returns are validated by the window-state court."
+    },
+    "mvinstr": {
+      "rust": "window::Window::instr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads characters from the cursor to end of row; the cells it returns are validated by the window-state court."
+    },
+    "mvinnstr": {
+      "rust": "window::Window::instr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads characters from the cursor to end of row; the cells it returns are validated by the window-state court."
+    },
+    "mvwinstr": {
+      "rust": "window::Window::instr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads characters from the cursor to end of row; the cells it returns are validated by the window-state court."
+    },
+    "mvwinnstr": {
+      "rust": "window::Window::instr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Reads characters from the cursor to end of row; the cells it returns are validated by the window-state court."
+    },
+    "inchstr": {
+      "rust": "window::Window::instr",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Char cells reconstructed (via instr); the chtype attribute bits these return are not modelled."
+    },
+    "inchnstr": {
+      "rust": "window::Window::instr",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Char cells reconstructed (via instr); the chtype attribute bits these return are not modelled."
+    },
+    "winchstr": {
+      "rust": "window::Window::instr",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Char cells reconstructed (via instr); the chtype attribute bits these return are not modelled."
+    },
+    "winchnstr": {
+      "rust": "window::Window::instr",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Char cells reconstructed (via instr); the chtype attribute bits these return are not modelled."
+    },
+    "mvinchstr": {
+      "rust": "window::Window::instr",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Char cells reconstructed (via instr); the chtype attribute bits these return are not modelled."
+    },
+    "mvinchnstr": {
+      "rust": "window::Window::instr",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Char cells reconstructed (via instr); the chtype attribute bits these return are not modelled."
+    },
+    "mvwinchstr": {
+      "rust": "window::Window::instr",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Char cells reconstructed (via instr); the chtype attribute bits these return are not modelled."
+    },
+    "mvwinchnstr": {
+      "rust": "window::Window::instr",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Char cells reconstructed (via instr); the chtype attribute bits these return are not modelled."
+    },
+    "border": {
+      "rust": "window::Window::border",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a border into the cell grid (sides + corners, 0 = ACS default); state matched by winch readback."
+    },
+    "wborder": {
+      "rust": "window::Window::border",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a border into the cell grid (sides + corners, 0 = ACS default); state matched by winch readback."
+    },
+    "box": {
+      "rust": "window::Window::draw_box",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Border with given side chars and default ACS corners; state matched by winch readback."
+    },
+    "hline": {
+      "rust": "window::Window::hline",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a horizontal line of n chars (0 = ACS_HLINE), clipped at the right edge; state matched by winch readback."
+    },
+    "whline": {
+      "rust": "window::Window::hline",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a horizontal line of n chars (0 = ACS_HLINE), clipped at the right edge; state matched by winch readback."
+    },
+    "mvhline": {
+      "rust": "window::Window::hline",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a horizontal line of n chars (0 = ACS_HLINE), clipped at the right edge; state matched by winch readback."
+    },
+    "mvwhline": {
+      "rust": "window::Window::hline",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a horizontal line of n chars (0 = ACS_HLINE), clipped at the right edge; state matched by winch readback."
+    },
+    "vline": {
+      "rust": "window::Window::vline",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a vertical line of n chars (0 = ACS_VLINE), clipped at the bottom; state matched by winch readback."
+    },
+    "wvline": {
+      "rust": "window::Window::vline",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a vertical line of n chars (0 = ACS_VLINE), clipped at the bottom; state matched by winch readback."
+    },
+    "mvvline": {
+      "rust": "window::Window::vline",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a vertical line of n chars (0 = ACS_VLINE), clipped at the bottom; state matched by winch readback."
+    },
+    "mvwvline": {
+      "rust": "window::Window::vline",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.STATE"
+      ],
+      "note": "Draws a vertical line of n chars (0 = ACS_VLINE), clipped at the bottom; state matched by winch readback."
+    },
+    "newwin": {
+      "rust": "window::Window::newwin",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Creates a blank window of given size at a screen position; geometry matched by the geometry court."
+    },
+    "newwin_sp": {
+      "rust": "window::Window::newwin",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Same as newwin; the _sp screen-pointer variant is not modelled."
+    },
+    "mvwin": {
+      "rust": "window::Window::mvwin",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Moves the window's top-left corner; geometry matched by the court."
+    },
+    "wresize": {
+      "rust": "window::Window::wresize",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Resizes the window (preserving top-left content); geometry matched by the court."
+    },
+    "dupwin": {
+      "rust": "window::Window::dupwin",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Copies cells, cursor, and geometry; matched by the geometry/state courts."
+    },
+    "derwin": {
+      "rust": "window::Window::derwin",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Child window at a parent-relative position; geometry (begyx/paryx) matched by the court. Shared parent cells are not modelled."
+    },
+    "subwin": {
+      "rust": "window::Window::subwin",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Child window at a screen-absolute position; geometry matched by the court. Shared parent cells are not modelled."
+    },
+    "mvderwin": {
+      "rust": "window::Window::derwin",
+      "status": "scaffold",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "The derived-window view shift is not modelled; only child geometry via derwin."
+    },
+    "is_subwin": {
+      "rust": "window::Window::is_subwin",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "True when the window has a parent; matched by the geometry court."
+    },
+    "getbegx": {
+      "rust": "window::Window::getbegyx",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Window top-left screen position; matched by the geometry court."
+    },
+    "getbegy": {
+      "rust": "window::Window::getbegyx",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Window top-left screen position; matched by the geometry court."
+    },
+    "getmaxx": {
+      "rust": "window::Window::getmaxyx",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Window size; matched by the geometry court."
+    },
+    "getmaxy": {
+      "rust": "window::Window::getmaxyx",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Window size; matched by the geometry court."
+    },
+    "getcurx": {
+      "rust": "window::Window::getyx",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Window cursor position; matched by the geometry/window-state courts."
+    },
+    "getcury": {
+      "rust": "window::Window::getyx",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Window cursor position; matched by the geometry/window-state courts."
+    },
+    "getparx": {
+      "rust": "window::Window::getparyx",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Position relative to the parent window; matched by the geometry court."
+    },
+    "getpary": {
+      "rust": "window::Window::getparyx",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Position relative to the parent window; matched by the geometry court."
+    },
+    "attr_on": {
+      "rust": "window::Window::attron",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns attribute bits on for subsequent writes; cell attributes matched to ncurses A_* via winch."
+    },
+    "wattr_on": {
+      "rust": "window::Window::attron",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns attribute bits on for subsequent writes; cell attributes matched to ncurses A_* via winch."
+    },
+    "attr_off": {
+      "rust": "window::Window::attroff",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns attribute bits off; cell attributes matched to ncurses via winch."
+    },
+    "wattr_off": {
+      "rust": "window::Window::attroff",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns attribute bits off; cell attributes matched to ncurses via winch."
+    },
+    "attr_set": {
+      "rust": "window::Window::attrset",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Sets the active attributes; cell attributes matched to ncurses via winch."
+    },
+    "wattr_set": {
+      "rust": "window::Window::attrset",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Sets the active attributes; cell attributes matched to ncurses via winch."
+    },
+    "attr_get": {
+      "rust": "window::Window::attr_get",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Returns the active attributes."
+    },
+    "wattr_get": {
+      "rust": "window::Window::attr_get",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Returns the active attributes."
+    },
+    "getattrs": {
+      "rust": "window::Window::attr_get",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Returns the active attributes."
+    },
+    "chgat": {
+      "rust": "window::Window::chgat",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Changes the attributes of n cells at the cursor (chars unchanged); matched to ncurses via winch."
+    },
+    "wchgat": {
+      "rust": "window::Window::chgat",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Changes the attributes of n cells at the cursor (chars unchanged); matched to ncurses via winch."
+    },
+    "mvchgat": {
+      "rust": "window::Window::chgat",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Changes the attributes of n cells at the cursor (chars unchanged); matched to ncurses via winch."
+    },
+    "mvwchgat": {
+      "rust": "window::Window::chgat",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Changes the attributes of n cells at the cursor (chars unchanged); matched to ncurses via winch."
+    },
+    "wstandout": {
+      "rust": "window::Window::standout",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns on A_STANDOUT; matched via winch."
+    },
+    "wstandend": {
+      "rust": "window::Window::standend",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Turns all attributes off; matched via winch."
+    },
+    "vidattr": {
+      "rust": "vid::Vid::set",
+      "status": "partial",
+      "courts": [
+        "NCURSES.DOUPDATE"
+      ],
+      "note": "Clean-room reproduction of vidputs/_nc_do_color (the SGR attribute + color-pair transition state machine) in vid::Vid, built on the byte-exact tparm and the color Palette. Verified byte-exact against real ncurses for bold/underline/reverse and the ANSI color pairs, integrated into and courted via doupdate (NCURSES.DOUPDATE). Italic/altcharset/xmc/ncv and use_default_colors are not modeled."
+    },
+    "vidattr_sp": {
+      "rust": "vid::Vid::set",
+      "status": "partial",
+      "courts": [
+        "NCURSES.DOUPDATE"
+      ],
+      "note": "Clean-room reproduction of vidputs/_nc_do_color (the SGR attribute + color-pair transition state machine) in vid::Vid, built on the byte-exact tparm and the color Palette. Verified byte-exact against real ncurses for bold/underline/reverse and the ANSI color pairs, integrated into and courted via doupdate (NCURSES.DOUPDATE). Italic/altcharset/xmc/ncv and use_default_colors are not modeled."
+    },
+    "vidputs": {
+      "rust": "vid::Vid::set",
+      "status": "partial",
+      "courts": [
+        "NCURSES.DOUPDATE"
+      ],
+      "note": "Clean-room reproduction of vidputs/_nc_do_color (the SGR attribute + color-pair transition state machine) in vid::Vid, built on the byte-exact tparm and the color Palette. Verified byte-exact against real ncurses for bold/underline/reverse and the ANSI color pairs, integrated into and courted via doupdate (NCURSES.DOUPDATE). Italic/altcharset/xmc/ncv and use_default_colors are not modeled."
+    },
+    "vidputs_sp": {
+      "rust": "vid::Vid::set",
+      "status": "partial",
+      "courts": [
+        "NCURSES.DOUPDATE"
+      ],
+      "note": "Clean-room reproduction of vidputs/_nc_do_color (the SGR attribute + color-pair transition state machine) in vid::Vid, built on the byte-exact tparm and the color Palette. Verified byte-exact against real ncurses for bold/underline/reverse and the ANSI color pairs, integrated into and courted via doupdate (NCURSES.DOUPDATE). Italic/altcharset/xmc/ncv and use_default_colors are not modeled."
+    },
+    "COLOR_PAIR": {
+      "rust": "window::color_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "COLOR_PAIR(n) = n<<8; matched to ncurses."
+    },
+    "PAIR_NUMBER": {
+      "rust": "window::pair_number",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "PAIR_NUMBER(attr) = (attr & A_COLOR) >> 8; matched to ncurses."
+    },
+    "init_pair_sp": {
+      "rust": "color::Palette::init_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "Registers a colour pair; pair_content matched to ncurses."
+    },
+    "pair_content": {
+      "rust": "color::Palette::pair_content",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "Returns a pair's (fg,bg); matched to ncurses (incl. default pair 0 = 7,0)."
+    },
+    "pair_content_sp": {
+      "rust": "color::Palette::pair_content",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "Returns a pair's (fg,bg); matched to ncurses (incl. default pair 0 = 7,0)."
+    },
+    "has_colors": {
+      "rust": "terminfo::Terminfo::has_colors",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "colors>0, derived from terminfo (tigetnum colors, court-matched)."
+    },
+    "has_colors_sp": {
+      "rust": "terminfo::Terminfo::has_colors",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "colors>0, derived from terminfo (tigetnum colors, court-matched)."
+    },
+    "can_change_color": {
+      "rust": "terminfo::Terminfo::can_change_color",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "the ccc capability, derived from terminfo (tigetflag, court-matched)."
+    },
+    "can_change_color_sp": {
+      "rust": "terminfo::Terminfo::can_change_color",
+      "status": "partial",
+      "courts": [
+        "NCURSES.TERMINFO.LOOKUP",
+        "NCURSES.TERMINFO.ECOLOGY"
+      ],
+      "note": "the ccc capability, derived from terminfo (tigetflag, court-matched)."
+    },
+    "keyname": {
+      "rust": "input::keyname",
+      "status": "partial",
+      "courts": [
+        "NCURSES.KEYNAME"
+      ],
+      "note": "Names a key code (printable/control/meta + the KEY_* table); matched to ncurses over -1..600."
+    },
+    "keyname_sp": {
+      "rust": "input::keyname",
+      "status": "partial",
+      "courts": [
+        "NCURSES.KEYNAME"
+      ],
+      "note": "Names a key code (printable/control/meta + the KEY_* table); matched to ncurses over -1..600."
+    },
+    "key_defined": {
+      "rust": "input::KeyMap::key_defined",
+      "status": "partial",
+      "courts": [
+        "NCURSES.KEY.DEFINED"
+      ],
+      "note": "The key a sequence is bound to (exact/-1 prefix/0), from the terminfo key caps; matched to ncurses."
+    },
+    "key_defined_sp": {
+      "rust": "input::KeyMap::key_defined",
+      "status": "partial",
+      "courts": [
+        "NCURSES.KEY.DEFINED"
+      ],
+      "note": "The key a sequence is bound to (exact/-1 prefix/0), from the terminfo key caps; matched to ncurses."
+    },
+    "has_key": {
+      "rust": "input::KeyMap::has_key",
+      "status": "partial",
+      "courts": [
+        "NCURSES.KEY.DEFINED"
+      ],
+      "note": "Whether the terminal defines a key code, from its terminfo key caps; matched to ncurses."
+    },
+    "has_key_sp": {
+      "rust": "input::KeyMap::has_key",
+      "status": "partial",
+      "courts": [
+        "NCURSES.KEY.DEFINED"
+      ],
+      "note": "Whether the terminal defines a key code, from its terminfo key caps; matched to ncurses."
+    },
+    "newpad": {
+      "rust": "window::Window::newpad",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Creates a pad (a window with no screen association); geometry + is_pad matched by the geometry court."
+    },
+    "newpad_sp": {
+      "rust": "window::Window::newpad",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Creates a pad (a window with no screen association); geometry + is_pad matched by the geometry court."
+    },
+    "subpad": {
+      "rust": "window::Window::subpad",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Sub-pad at a parent-relative position; geometry matched by the court."
+    },
+    "is_pad": {
+      "rust": "window::Window::is_pad",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.GEOMETRY"
+      ],
+      "note": "Whether the window is a pad; matched by the geometry court."
+    },
+    "prefresh": {
+      "rust": "screen::single_field_repaint",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Pad-to-screen copy; shares the single-shape repaint seed (general doupdate is a seed)."
+    },
+    "pnoutrefresh": {
+      "rust": "screen::single_field_repaint",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Pad-to-screen copy; shares the single-shape repaint seed (general doupdate is a seed)."
+    },
+    "pechochar": {
+      "rust": "window::Window::addch",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Add to the pad then refresh; the add is reconstructed, the echo refresh is the doupdate seed."
+    },
+    "printw": {
+      "rust": "window::Window::addstr",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Formats (C printf, delegated to the caller) then adds the string to the window; the window effect is addstr (courted via WINDOW.STATE)."
+    },
+    "wprintw": {
+      "rust": "window::Window::addstr",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Formats (C printf, delegated to the caller) then adds the string to the window; the window effect is addstr (courted via WINDOW.STATE)."
+    },
+    "mvprintw": {
+      "rust": "window::Window::addstr",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Formats (C printf, delegated to the caller) then adds the string to the window; the window effect is addstr (courted via WINDOW.STATE)."
+    },
+    "mvwprintw": {
+      "rust": "window::Window::addstr",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Formats (C printf, delegated to the caller) then adds the string to the window; the window effect is addstr (courted via WINDOW.STATE)."
+    },
+    "vwprintw": {
+      "rust": "window::Window::addstr",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Formats (C printf, delegated to the caller) then adds the string to the window; the window effect is addstr (courted via WINDOW.STATE)."
+    },
+    "vw_printw": {
+      "rust": "window::Window::addstr",
+      "status": "scaffold",
+      "courts": [],
+      "note": "Formats (C printf, delegated to the caller) then adds the string to the window; the window effect is addstr (courted via WINDOW.STATE)."
+    },
+    "addchstr": {
+      "rust": "window::Window::addchstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Writes a chtype array (char+attr) at the cursor without advancing, clipped at the margin; char+attr matched to ncurses via winch."
+    },
+    "addchnstr": {
+      "rust": "window::Window::addchstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Writes a chtype array (char+attr) at the cursor without advancing, clipped at the margin; char+attr matched to ncurses via winch."
+    },
+    "waddchstr": {
+      "rust": "window::Window::addchstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Writes a chtype array (char+attr) at the cursor without advancing, clipped at the margin; char+attr matched to ncurses via winch."
+    },
+    "waddchnstr": {
+      "rust": "window::Window::addchstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Writes a chtype array (char+attr) at the cursor without advancing, clipped at the margin; char+attr matched to ncurses via winch."
+    },
+    "mvaddchstr": {
+      "rust": "window::Window::addchstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Writes a chtype array (char+attr) at the cursor without advancing, clipped at the margin; char+attr matched to ncurses via winch."
+    },
+    "mvaddchnstr": {
+      "rust": "window::Window::addchstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Writes a chtype array (char+attr) at the cursor without advancing, clipped at the margin; char+attr matched to ncurses via winch."
+    },
+    "mvwaddchstr": {
+      "rust": "window::Window::addchstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Writes a chtype array (char+attr) at the cursor without advancing, clipped at the margin; char+attr matched to ncurses via winch."
+    },
+    "mvwaddchnstr": {
+      "rust": "window::Window::addchstr",
+      "status": "partial",
+      "courts": [
+        "NCURSES.WINDOW.ATTR"
+      ],
+      "note": "Writes a chtype array (char+attr) at the cursor without advancing, clipped at the margin; char+attr matched to ncurses via winch."
+    },
+    "newterm": {
+      "rust": "term::INIT_PROLOGUE",
+      "status": "divergent",
+      "courts": [
+        "NCURSES.BYTE.FRAME.FULL"
+      ],
+      "note": "Emits the init prologue; against the in-repo ncurses 6.4 pty oracle the composite framing diverges (emission order + feature extras), recorded not matched."
+    },
+    "newterm_sp": {
+      "rust": "term::INIT_PROLOGUE",
+      "status": "divergent",
+      "courts": [
+        "NCURSES.BYTE.FRAME.FULL"
+      ],
+      "note": "Emits the init prologue; against the in-repo ncurses 6.4 pty oracle the composite framing diverges (emission order + feature extras), recorded not matched."
+    },
+    "endwin_sp": {
+      "rust": "term::TEARDOWN_EPILOGUE",
+      "status": "divergent",
+      "courts": [
+        "NCURSES.BYTE.FRAME.FULL"
+      ],
+      "note": "Emits the teardown epilogue; same recorded framing divergence as initscr against the in-repo oracle."
+    },
+    "exit_curses": {
+      "rust": "term::TEARDOWN_EPILOGUE",
+      "status": "divergent",
+      "courts": [
+        "NCURSES.BYTE.FRAME.FULL"
+      ],
+      "note": "Emits the teardown epilogue; same recorded framing divergence as initscr against the in-repo oracle."
+    },
+    "wenclose": {
+      "rust": "window::Window::wenclose",
+      "status": "partial",
+      "courts": [
+        "NCURSES.MOUSE.TRAFO"
+      ],
+      "note": "Whether a screen point is within the window; matched to ncurses."
+    },
+    "mouse_trafo": {
+      "rust": "window::Window::mouse_trafo",
+      "status": "partial",
+      "courts": [
+        "NCURSES.MOUSE.TRAFO"
+      ],
+      "note": "Window<->screen coordinate transform with enclosure check; matched to ncurses."
+    },
+    "wmouse_trafo": {
+      "rust": "window::Window::mouse_trafo",
+      "status": "partial",
+      "courts": [
+        "NCURSES.MOUSE.TRAFO"
+      ],
+      "note": "Window<->screen coordinate transform with enclosure check; matched to ncurses."
+    },
+    "slk_set": {
+      "rust": "slk::SoftLabels::set",
+      "status": "partial",
+      "courts": [
+        "NCURSES.SLK"
+      ],
+      "note": "Stores a soft label; slk_label read-back matched to ncurses."
+    },
+    "slk_set_sp": {
+      "rust": "slk::SoftLabels::set",
+      "status": "partial",
+      "courts": [
+        "NCURSES.SLK"
+      ],
+      "note": "Stores a soft label; slk_label read-back matched to ncurses."
+    },
+    "slk_label": {
+      "rust": "slk::SoftLabels::label",
+      "status": "partial",
+      "courts": [
+        "NCURSES.SLK"
+      ],
+      "note": "Returns the stored label truncated to the label width; matched to ncurses (80 cols)."
+    },
+    "slk_label_sp": {
+      "rust": "slk::SoftLabels::label",
+      "status": "partial",
+      "courts": [
+        "NCURSES.SLK"
+      ],
+      "note": "Returns the stored label truncated to the label width; matched to ncurses (80 cols)."
+    },
+    "color_content": {
+      "rust": "color::Palette::color_content",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.CONTENT"
+      ],
+      "note": "Default 8-colour rgb palette (can_change_color false on xterm); matched to ncurses."
+    },
+    "color_content_sp": {
+      "rust": "color::Palette::color_content",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.CONTENT"
+      ],
+      "note": "Default 8-colour rgb palette (can_change_color false on xterm); matched to ncurses."
+    },
+    "extended_color_content": {
+      "rust": "color::Palette::color_content",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.CONTENT"
+      ],
+      "note": "Default 8-colour rgb palette (can_change_color false on xterm); matched to ncurses."
+    },
+    "extended_color_content_sp": {
+      "rust": "color::Palette::color_content",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.CONTENT"
+      ],
+      "note": "Default 8-colour rgb palette (can_change_color false on xterm); matched to ncurses."
+    },
+    "extended_pair_content": {
+      "rust": "color::Palette::pair_content",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "Extended (i32) pair (fg,bg); same registry as pair_content, matched to ncurses."
+    },
+    "extended_pair_content_sp": {
+      "rust": "color::Palette::pair_content",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "Extended (i32) pair (fg,bg); same registry as pair_content, matched to ncurses."
+    },
+    "init_extended_pair": {
+      "rust": "color::Palette::init_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "Extended (i32) pair registration; same registry as init_pair."
+    },
+    "init_extended_pair_sp": {
+      "rust": "color::Palette::init_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.PAIR"
+      ],
+      "note": "Extended (i32) pair registration; same registry as init_pair."
+    },
+    "alloc_pair": {
+      "rust": "color::Palette::alloc_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.ALLOC"
+      ],
+      "note": "Allocate/return a pair for (fg,bg); matched to ncurses."
+    },
+    "alloc_pair_sp": {
+      "rust": "color::Palette::alloc_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.ALLOC"
+      ],
+      "note": "Allocate/return a pair for (fg,bg); matched to ncurses."
+    },
+    "find_pair": {
+      "rust": "color::Palette::find_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.ALLOC"
+      ],
+      "note": "Find an initialized pair for (fg,bg) or -1; matched to ncurses."
+    },
+    "find_pair_sp": {
+      "rust": "color::Palette::find_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.ALLOC"
+      ],
+      "note": "Find an initialized pair for (fg,bg) or -1; matched to ncurses."
+    },
+    "free_pair": {
+      "rust": "color::Palette::free_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.ALLOC"
+      ],
+      "note": "Release an allocated pair."
+    },
+    "free_pair_sp": {
+      "rust": "color::Palette::free_pair",
+      "status": "partial",
+      "courts": [
+        "NCURSES.COLOR.ALLOC"
+      ],
+      "note": "Release an allocated pair."
+    },
+    "getch": {
+      "rust": "input::KeyMap::decode",
+      "status": "partial",
+      "courts": [
+        "NCURSES.INPUT"
+      ],
+      "note": "The key-decoding half of getch is reconstructed: input::KeyMap::decode maps a buffered byte stream to the KEY_* code sequence ncurses' wgetch returns (longest-match trie traversal), verified against a real ncurses getch loop over a pty for arrows, F1-F12, navigation keys, and mixed text (NCURSES.INPUT). The live raw-mode read loop and the ESCDELAY timer for a lone trailing ESC are the ncurses-terminal crate's job (INP-02/TIM-02)."
+    },
+    "wgetch": {
+      "rust": "input::KeyMap::decode",
+      "status": "partial",
+      "courts": [
+        "NCURSES.INPUT"
+      ],
+      "note": "The key-decoding half of wgetch is reconstructed: input::KeyMap::decode maps a buffered byte stream to the KEY_* code sequence ncurses returns (longest-match trie traversal), courted byte-for-byte against real ncurses (NCURSES.INPUT). The read-timing/raw-mode loop is deferred to the ncurses-terminal crate."
+    }
+  }
+}

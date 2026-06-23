@@ -1,0 +1,55 @@
+{
+  "byte_match": false,
+  "case_id": "NCURSES.TERMCAP",
+  "category_verdicts": {
+    "tgetflag": "admitted_match",
+    "tgetnum": "admitted_match",
+    "tgetstr": "admitted_divergence",
+    "tgoto": "admitted_match"
+  },
+  "cols": 80,
+  "diffs": [
+    {
+      "c": "S|me|HEX:1b5b306d",
+      "rust": "S|me|HEX:1b28421b5b6d"
+    },
+    {
+      "c": "S|ML|HEX:1b5b3f3639681b5b256925703125643b257032256473",
+      "rust": "S|ML|ABSENT"
+    },
+    {
+      "c": "S|ML|HEX:1b5b3f3639681b5b256925703125643b257032256473",
+      "rust": "S|ML|ABSENT"
+    }
+  ],
+  "entries_compared": 502,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Legacy termcap layer over the terminfo substrate. tgetflag/tgetnum/tgoto match ncurses byte-for-byte; tgetstr diverges on the handful of codes that ncurses' termcap emulation massages or synthesizes (e.g. 'me' -> \\E[0m instead of the raw sgr0; 'ML' margin cap synthesized). tgoto(cap,col,row) == tparm(cap,row,col); tgetent maps to the loader.",
+  "oracle_class": "termcap",
+  "oracle_method": "crate tgetflag/tgetnum/tgetstr (by code) + tgoto vs ncurses tgetent+tget*+tgoto, TERMINFO pinned to fixture",
+  "oracle_sha256": "cd8844d730bff90abcb8fa2a04e91cca60f142d79a0c3cf4b6fc2e794bf6f732",
+  "per_category": {
+    "tgetflag": {
+      "compared": 44,
+      "diffs": 0
+    },
+    "tgetnum": {
+      "compared": 39,
+      "diffs": 0
+    },
+    "tgetstr": {
+      "compared": 414,
+      "diffs": 3
+    },
+    "tgoto": {
+      "compared": 5,
+      "diffs": 0
+    }
+  },
+  "rows": 24,
+  "rust_sha256": "25db8b5730454d9b8b784a82f5d0313650f936b17a1c62721ea993ac104c3580",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_divergence"
+}

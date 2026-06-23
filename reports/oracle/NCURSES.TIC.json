@@ -1,0 +1,24 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.TIC",
+  "cols": 80,
+  "extended": {
+    "exact": 2869,
+    "misses": [],
+    "total": 2869
+  },
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Native `tic` (crates/ncurses-tools) compiles terminfo source to the exact compiled binary system tic produces -- 100.000% byte-identical across the whole terminfo database on BOTH the `infocmp -1 | tic` and the `infocmp -1 -x | tic -x` round-trips. It reconstructs the source parser (comma/`^X`/`\\X`-aware field splitting), the `_nc_tic_expand` un-escaper (`\\E`/`^X`/`\\nnn`/`\\0`->0x80/`\\s`, the `%`-operator verbatim rule), and the binary writer: header, `|`-joined names, boolean bytes, even-offset numbers with 16-vs-32-bit magic selection, string offsets/table, cancelled caps (-2), the SVr4 cutoff that drops ncurses-extension predefined caps without `-x`, and -- with `-x` -- the full extended section (value/name offset tables, str_count/str_size header, cancelled extended strings). Inverse of the `NCURSES.INFOCMP` court; advances BLD-03.",
+  "oracle_class": "c-abi-tools",
+  "oracle_method": "build the native tic and, for every terminal, compile `infocmp -1 [-x] <t>` source with both our tic and system tic, comparing the compiled binary byte-for-byte (both the predefined-only and the extended/`-x` round-trips)",
+  "plain": {
+    "exact": 2869,
+    "misses": [],
+    "total": 2869
+  },
+  "rows": 24,
+  "term": "xterm",
+  "terminal_count": 2869,
+  "verdict": "admitted_match"
+}

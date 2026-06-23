@@ -1,0 +1,19 @@
+{
+  "byte_match": true,
+  "capability": "set_a_background 0",
+  "case_id": "NCURSES.CAP.SETAB.0",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "oracle_bytes": "\u001b[40m",
+  "oracle_class": "terminfo-capability",
+  "oracle_method": "tput ['setab', '0']",
+  "oracle_sha256": "681ccf3f55126159527191b0f2eeb14533e822acfe1bc54c21de67c002554619",
+  "rows": 24,
+  "rust_bytes": "\u001b[40m",
+  "rust_dump_id": "cap.setab.0",
+  "rust_sha256": "681ccf3f55126159527191b0f2eeb14533e822acfe1bc54c21de67c002554619",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

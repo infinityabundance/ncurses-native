@@ -1,0 +1,27 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "d3f5651b48dbc7808a1ea3531fb4e67bab2ba2ce44e83d4dbbd530a1c291700f",
+  "cabi_bytes": "err=1\nstr clear=\\E[H\\E[2J\nstr cup=\\E[%i%p1%d;%p2%dH\nstr el=\\E[K\nstr el1=\\E[1K\nstr cuu1=\\E[A\nstr home=\\E[H\nstr sgr0=\\E(B\\E[m\nstr op=\\E[39;49m\nstr setaf=\\E[3%p1%dm\nstr setab=\\E[4%p1%dm\nstr bel=^7\nstr hpa=\\E[%i%p1%dG\nstr vpa=\\E[%i%p1%dd\nnum colors=8\nnum cols=80\nnum lines=24\nnum it=8\nnum pairs=64\nflag am=1\nflag bce=1\nflag msgr=1\nflag xenl=1\nflag hc=0\ntgoto cup 4,2=\\E[3;5H\ntparm cup 2,4=\\E[3;5H\ntparm cup 23,11=\\E[24;12H\ntparm setaf 1=\\E[31m\ntparm setab 4=\\E[44m\ntparm setaf 0=\\E[30m\ntputs clear ->\\E[H\\E[2J\n",
+  "cabi_sha256": "a46f782df4c3b4df9b74be3b7935666df03c11730ba8125b3ee61a7cbe4f669c",
+  "case_id": "NCURSES.CABI",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The native C-ABI staticlib, linked into an ordinary C program, returns byte-identical terminfo results to the system libtinfo for setupterm + tigetstr/tigetnum/tigetflag + tputs/tgoto + the variadic tparm(...) (ABI-VAR-01: a fixed nine-c_long definition is call-compatible with variadic callers on register-based ABIs). This is the drop-in surface (gap-ledger STRUCT-01/02): a thread-local cur_term holds the loaded entry and owns the returned strings. The curses window/screen symbols are not yet wired.",
+  "oracle_class": "c-abi",
+  "oracle_method": "compile one C program twice -- linked to the native libncurses_cabi.a and to the system libtinfo -- run both under TERM=xterm and compare stdout",
+  "rows": 24,
+  "symbols": [
+    "setupterm",
+    "tigetstr",
+    "tigetnum",
+    "tigetflag",
+    "tputs",
+    "tgoto",
+    "tparm"
+  ],
+  "term": "xterm",
+  "tinfo_bytes": "err=1\nstr clear=\\E[H\\E[2J\nstr cup=\\E[%i%p1%d;%p2%dH\nstr el=\\E[K\nstr el1=\\E[1K\nstr cuu1=\\E[A\nstr home=\\E[H\nstr sgr0=\\E(B\\E[m\nstr op=\\E[39;49m\nstr setaf=\\E[3%p1%dm\nstr setab=\\E[4%p1%dm\nstr bel=^7\nstr hpa=\\E[%i%p1%dG\nstr vpa=\\E[%i%p1%dd\nnum colors=8\nnum cols=80\nnum lines=24\nnum it=8\nnum pairs=64\nflag am=1\nflag bce=1\nflag msgr=1\nflag xenl=1\nflag hc=0\ntgoto cup 4,2=\\E[3;5H\ntparm cup 2,4=\\E[3;5H\ntparm cup 23,11=\\E[24;12H\ntparm setaf 1=\\E[31m\ntparm setab 4=\\E[44m\ntparm setaf 0=\\E[30m\ntputs clear ->\\E[H\\E[2J\n",
+  "tinfo_sha256": "a46f782df4c3b4df9b74be3b7935666df03c11730ba8125b3ee61a7cbe4f669c",
+  "verdict": "admitted_match"
+}

@@ -1,0 +1,93 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.SCROLL.OPTIMIZE",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The scroll optimizer reproduces ncurses' `_nc_scroll_optimize` / `_nc_scrolln` for a single contiguous moved band. Whole-screen (top=0,bot=maxy): GoTo(bottom)+ind/indn up, GoTo(top)+ri/rin down. Bottom-anchored (bot=maxy,top>0): GoTo(top)+dl1/dl up, GoTo(top)+il1/il down, no csr. Confined mid/top region (bot<maxy): csr(top,bot) -- which homes the terminal cursor, so the following GoTo is absolute -- then the scroll, then a csr reset to the full screen (cursor again invalidated). The region grows through matching rows (incl. blank-to-blank), so a shift with only blanks below extends to the bottom; it is confined only when non-blank static content sits below the band. A non-blank line must actually move into view to scroll -- content that merely becomes blank is cleared (the cost decision). MULTI-REGION (`_nc_hash_map`): the optimizer scans top-to-bottom and emits each shift band as its own scroll, with TransformLine painting the plain edits between them -- so two independent bands, opposite-direction bands, and a band beside an unrelated edit are all byte-exact. Still not modeled: the `idl` overwrite-residual path, where a single-line insert/delete leaves *new* content in the vacated row (ncurses keeps the old line in its curscr model); the crate abstains (vacated row not blank) and redraws those rows instead.",
+  "oracle_class": "pty-screen-update",
+  "oracle_method": "for each scroll scenario: capture the phase-1 bytes from real ncurses on an 80x24 xterm pty (no-endwin prefix isolation) and compare to the crate's doupdate scroll optimizer",
+  "rows": 24,
+  "scenarios": [
+    {
+      "scenario": "up1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "up2",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "up3",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "down1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "down2",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "part_up1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "two_line_up1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "clear_not_scroll",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "region_mid_up1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "region_mid_up2",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "region_mid_down1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "region_mid_down2",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "region_top_up1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "region_top_down1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "region_bot_up1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "region_bot_down1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "multi_two_bands_up1",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "multi_up_top_down_bot",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "multi_scroll_plus_edit",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 19,
+  "scenarios_total": 19,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

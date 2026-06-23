@@ -1,0 +1,21 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "5e39b58e50a7d100f765328eabbd5b5d4054ebc037dd926c4ebf9af00dd1ec58",
+  "cabi_grids": "overwrite:\n A Abb\nAAAAbb\nbbbbbb\noverlay:\ndAdAdd\nAAAAdd\ndddddd\ncopywin:\n........\n..1234..\n..abcd..\n........",
+  "case_id": "NCURSES.OVERLAY.STATE",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_grids": "overwrite:\n A Abb\nAAAAbb\nbbbbbb\noverlay:\ndAdAdd\nAAAAdd\ndddddd\ncopywin:\n........\n..1234..\n..abcd..\n........",
+  "notes": "overwrite copies every overlapping cell, overlay copies only the non-blank ones (spaces skipped), and copywin copies a rectangle -- the merged destination grids match libncursesw cell-for-cell (upgrades OVERLAY.NOOUTPUT, which only checked the empty immediate-output contract).",
+  "oracle_class": "c-abi-overlay",
+  "oracle_method": "link one overwrite/overlay/copywin C program against libncurses_cabi + the generated curses.h and against libncursesw; read the destination windows back with mvwinch and compare the merged grids",
+  "rows": 24,
+  "symbols": [
+    "overlay",
+    "overwrite",
+    "copywin"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

@@ -1,0 +1,19 @@
+{
+  "byte_match": true,
+  "capability": "bell (bel) -- beep()",
+  "case_id": "NCURSES.CAP.BEL",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "oracle_bytes": "\u0007",
+  "oracle_class": "terminfo-capability",
+  "oracle_method": "tput ['bel']",
+  "oracle_sha256": "ca358758f6d27e6cf45272937977a748fd88391db679ceda7dc7bf1f005ee879",
+  "rows": 24,
+  "rust_bytes": "\u0007",
+  "rust_dump_id": "cap.bel",
+  "rust_sha256": "ca358758f6d27e6cf45272937977a748fd88391db679ceda7dc7bf1f005ee879",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

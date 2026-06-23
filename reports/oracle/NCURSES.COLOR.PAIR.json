@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.COLOR.PAIR",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Color-pair registry and the pair-bit macros. The rgb palette (init_color/color_content), extended 32-bit color, and dynamic pair allocation are not modelled.",
+  "oracle": "pair_content(0)=7,0\npair_content(1)=1,4\npair_content(2)=2,0\npair_content(3)=0,0\npair_content(5)=3,4\npair_content(9)=0,0\nCOLOR_PAIR(1)=256\nCOLOR_PAIR(2)=512\nPAIR_NUMBER(0x300)=3\n",
+  "oracle_class": "color-pair",
+  "oracle_method": "init_pair/pair_content registry + COLOR_PAIR/PAIR_NUMBER macros vs ncurses",
+  "rows": 24,
+  "rust": "pair_content(0)=7,0\npair_content(1)=1,4\npair_content(2)=2,0\npair_content(3)=0,0\npair_content(5)=3,4\npair_content(9)=0,0\nCOLOR_PAIR(1)=256\nCOLOR_PAIR(2)=512\nPAIR_NUMBER(0x300)=3\n",
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

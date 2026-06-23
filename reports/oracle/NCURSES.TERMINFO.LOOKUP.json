@@ -1,0 +1,18 @@
+{
+  "byte_match": true,
+  "caps_compared": 497,
+  "case_id": "NCURSES.TERMINFO.LOOKUP",
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Reconstructed terminfo lookup vs ncurses' own, over every standard boolean/numeric/string capability of the admitted xterm entry. Extended/user-defined caps are not parsed (explicit non-claim).",
+  "oracle_class": "terminfo-lookup",
+  "oracle_method": "ncurses tigetflag/tigetnum/tigetstr over boolnames/numnames/strnames, TERMINFO pinned to fixture",
+  "oracle_sha256": "eb9aca830763d49173c985c4e428ed95abbc74aa8bad94608035ea96905a13ae",
+  "rows": 24,
+  "rust_sha256": "eb9aca830763d49173c985c4e428ed95abbc74aa8bad94608035ea96905a13ae",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

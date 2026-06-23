@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.SLK",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Soft-label registry (slk_set/slk_label). Label width is COLS-derived (8 at 80 cols).",
+  "oracle": "label(0)=|(null)|\nlabel(1)=|File|\nlabel(2)=|Edit|\nlabel(3)=|Quit|\nlabel(4)=|VeryLong|\nlabel(5)=||\nlabel(6)=||\nlabel(7)=||\nlabel(8)=||\nlabel(9)=|(null)|\n",
+  "oracle_class": "soft-labels",
+  "oracle_method": "slk_init(1)+initscr; slk_set then slk_label(0..9) vs ncurses (80 cols)",
+  "rows": 24,
+  "rust": "label(0)=|(null)|\nlabel(1)=|File|\nlabel(2)=|Edit|\nlabel(3)=|Quit|\nlabel(4)=|VeryLong|\nlabel(5)=||\nlabel(6)=||\nlabel(7)=||\nlabel(8)=||\nlabel(9)=|(null)|\n",
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

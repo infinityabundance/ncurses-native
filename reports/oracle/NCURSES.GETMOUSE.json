@@ -1,0 +1,39 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "5dfe29345eb52c9fa1276f0baf1d68aa266244627369aecd53cc4b64cf2dfa3d",
+  "case_id": "NCURSES.GETMOUSE",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The SGR mouse report `\\e[<b;x;yM`/`m` decodes to KEY_MOUSE + a getmouse MEVENT with 0-based x/y and the bstate PRESSED bit for buttons 1-3, identical to libncursesw. Not modeled (court scoped around them): timing-dependent click coalescing, lone-release suppression (ncurses drops a release with no prior press), modifier bits, and multi-event batch queueing/coalescing.",
+  "oracle_class": "c-abi-mouse",
+  "oracle_method": "feed SGR mouse reports to a getch/getmouse program linked against libncurses_cabi vs libncursesw over a raw xterm pty; compare the decoded (x, y, bstate)",
+  "rows": 24,
+  "scenarios": [
+    {
+      "ours": "x=9 y=4 b=2",
+      "real": "x=9 y=4 b=2",
+      "scenario": "b1_press",
+      "verdict": "admitted_match"
+    },
+    {
+      "ours": "x=4 y=5 b=40",
+      "real": "x=4 y=5 b=40",
+      "scenario": "b2_press",
+      "verdict": "admitted_match"
+    },
+    {
+      "ours": "x=2 y=3 b=800",
+      "real": "x=2 y=3 b=800",
+      "scenario": "b3_press",
+      "verdict": "admitted_match"
+    }
+  ],
+  "symbols": [
+    "getmouse",
+    "mousemask",
+    "KEY_MOUSE"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

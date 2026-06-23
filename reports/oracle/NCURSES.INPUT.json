@@ -1,0 +1,59 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "9958447907af11d2b3af01a88aaf93f303b88df09d1397e7a4bc7942bd97ed75",
+  "case_id": "NCURSES.INPUT",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The crate's KeyMap.decode reproduces ncurses' key-trie traversal: bytes -> KEY_* codes for arrows, F1-F12, navigation keys, and mixed text/keys, matched against a real ncurses getch loop. Scope: fully-buffered input (all bytes present); the ESCDELAY timer for a lone trailing ESC and the live raw-mode read loop are the ncurses-terminal crate's job (INP-02/TIM-02), not this pure decoder.",
+  "oracle_class": "pty-input",
+  "oracle_method": "feed each byte sequence to a real ncurses getch loop (keypad TRUE) over an 80x24 xterm pty and collect the returned keycodes; decode the same bytes with the crate KeyMap; compare",
+  "rows": 24,
+  "scenarios": [
+    {
+      "scenario": "arrows",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "f1_f4",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "nav_keys",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "f5_f12",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "text_and_keys",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "plain_text",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "backspace_tab_del",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "esc_then_char",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "esc_then_text",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "key_then_esc_text",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 10,
+  "scenarios_total": 10,
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

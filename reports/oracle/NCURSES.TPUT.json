@@ -1,0 +1,126 @@
+{
+  "byte_match": true,
+  "case_count": 22,
+  "case_id": "NCURSES.TPUT",
+  "cases": [
+    {
+      "args": "tput clear",
+      "match": true,
+      "sha256": "36aed6afcda87163fe66434b06e8cd97b1d6d1f02a0b072a7ff6b8a40b3599c6"
+    },
+    {
+      "args": "tput cup 5 10",
+      "match": true,
+      "sha256": "ec15d1e5800518f869da975a7a5cbbc590a307e7a5a348cd8813e718dca201c8"
+    },
+    {
+      "args": "tput setaf 1",
+      "match": true,
+      "sha256": "83a738788fd1a69a9163233e56179fab59d51922c1851b9c93f96fafd9a8abfa"
+    },
+    {
+      "args": "tput setab 4",
+      "match": true,
+      "sha256": "b58acaa23aa05011dbfd95babd5fa4a21e1ed3b0880512d37c7bfaa5181e6a01"
+    },
+    {
+      "args": "tput bold",
+      "match": true,
+      "sha256": "ac8970393768b61e98fe41b99a795362d2fbe3b0b057d676f8559c272888f6ce"
+    },
+    {
+      "args": "tput smul",
+      "match": true,
+      "sha256": "da7c533b4a209a65c75681c552c843bc2473fe7b19d89f21185c088b16c942ec"
+    },
+    {
+      "args": "tput sgr0",
+      "match": true,
+      "sha256": "4ec4e904b2aa77d61b527d4f83b9e2530196080ac0d5aab786db42d7c4dfceb1"
+    },
+    {
+      "args": "tput rev",
+      "match": true,
+      "sha256": "cc98d82d0bad9bec9f0c83f7a4e4a09657c8971fe6f394c7542edcbcbbec0690"
+    },
+    {
+      "args": "tput dim",
+      "match": true,
+      "sha256": "1d4839e06f46da27595f4d9f87303d417da0f685d16818bade4d3813c1516dbd"
+    },
+    {
+      "args": "tput el",
+      "match": true,
+      "sha256": "0e30a5a821a5bb2199c3553ad8502e745e9d60e18d47447e6c2497faceee89c1"
+    },
+    {
+      "args": "tput ed",
+      "match": true,
+      "sha256": "59fd85527fcfe79af7238de7d221ae4fa57c20bd142db0b28051952787e827bb"
+    },
+    {
+      "args": "tput civis",
+      "match": true,
+      "sha256": "f2b9bd801603442bdc3ae79b5207b788283886a438333f41c37015a778625eb2"
+    },
+    {
+      "args": "tput cnorm",
+      "match": true,
+      "sha256": "1c474ab18e0c48eff8c48b97950478470dedd51264a835dc8b56e7f92c8e9401"
+    },
+    {
+      "args": "tput home",
+      "match": true,
+      "sha256": "bb8de19ca1c6839f38db36df8b97d0f394d0c4a35aee25030c490f0ccaa35d51"
+    },
+    {
+      "args": "tput sc",
+      "match": true,
+      "sha256": "a4a8bda9a1443a90799915af717f89046950bc08982b8afeb9427af4fc980c23"
+    },
+    {
+      "args": "tput rc",
+      "match": true,
+      "sha256": "60ff8253c72ba4112afb95b4b8f91572318090e4436219f4b7737e04831a95ee"
+    },
+    {
+      "args": "tput smcup",
+      "match": true,
+      "sha256": "17887f498d8613c31d9167f73dd4b37c9fe0b3e6e921067724f48a53e0d73691"
+    },
+    {
+      "args": "tput rmcup",
+      "match": true,
+      "sha256": "d5db68656d9b4f3cf97f08b46187b8d6c0d5206b543cccfbf56eccb8f6eb83d4"
+    },
+    {
+      "args": "tput cols",
+      "match": true,
+      "sha256": "95aebc97bc646c67fdcd923a5965b001f3c8a5c4d3a77075112e12a3a311d760"
+    },
+    {
+      "args": "tput lines",
+      "match": true,
+      "sha256": "68ca3fba3b7e864770cb61aeb306d4bd4354b68ab4dd38450860c5d823e42a53"
+    },
+    {
+      "args": "tput longname",
+      "match": true,
+      "sha256": "405eaf0117eb93a78155591f9328a54f71f1d7e6dabcd5db82c1996309a0256d"
+    },
+    {
+      "args": "clear",
+      "match": true,
+      "sha256": "36aed6afcda87163fe66434b06e8cd97b1d6d1f02a0b072a7ff6b8a40b3599c6"
+    }
+  ],
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Native `tput`/`clear` binaries (crates/ncurses-tools) emit byte-identically to the system tools across string caps (tparm+tputs: cup/setaf/setab/bold/...), number caps (cols/lines), `longname`, and `clear`. `tput clear`/`clear` append the `E3` clear-scrollback extension, exercising the new extended (user-defined) terminfo reader. Closes part of BLD-03 (CLI tools as native binaries).",
+  "oracle_class": "c-abi-tools",
+  "oracle_method": "build the native tput/clear binaries and compare their stdout, for a battery of string/number/longname caps and clear, to the system tput/clear under TERM=xterm",
+  "rows": 24,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

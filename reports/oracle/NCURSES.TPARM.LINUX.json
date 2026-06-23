@@ -1,0 +1,16 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.TPARM.LINUX",
+  "cases": 78,
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The terminfo %-expression evaluator is terminal-general: it reproduces ncurses' tparm byte-for-byte on the Linux console's own cap formats (cup/setaf/sgr/ich/dch/il/dl/ech/rep/...), not just xterm's (STRUCT-04). Padding ($<...>) is tputs' job.",
+  "oracle_class": "tparm",
+  "oracle_method": "crate tparm vs ncurses tparm over the Linux console's parameterized caps (param sweeps); tparm evaluates the cap string + params independent of the loaded terminal",
+  "rows": 24,
+  "term": "xterm",
+  "terminfo_sha256": "b70a4941416eb703a01b5a06fd1c914880452302b0e0b2a7dea12600607824a7",
+  "verdict": "admitted_match"
+}

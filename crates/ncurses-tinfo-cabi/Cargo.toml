@@ -1,0 +1,12 @@
+[package]
+name = "ncurses-tinfo-cabi"
+version = "0.0.0"
+edition = "2021"
+publish = false
+description = "The standalone libtinfo split: a cdylib (soname libtinfo.so.6) exporting ONLY the low-level terminfo subset (setupterm/tigetstr/tigetnum/tigetflag/tputs/putp/tgoto/tparm/curses_version), so programs needing just terminfo (bash/less/readline) link a minimal library without the curses screen symbols (gap-ledger BLD-05)."
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+ncurses-native = { path = "../.." }

@@ -1,0 +1,108 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.TERMINFO.ECOLOGY",
+  "claim": "file-faithful terminfo reading across the terminal ecology",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The native terminfo loader/reader reproduces ncurses' tiget* across terminals, including the 32-bit-number compiled format (xterm-256color, tmux-256color). The reader is terminfo-file-faithful: the only differences are cols/lines on entries that omit them (e.g. linux), which ncurses' setupterm augments from the runtime terminal size (use_env) -- a setupterm runtime behavior, recorded per-term, that the file reader intentionally does not model. Extended/user-defined caps remain a non-claim.",
+  "oracle_class": "terminal-ecology",
+  "oracle_method": "crate Terminfo::load + tiget* vs ncurses setupterm + tiget*, TERMINFO pinned to /usr/share/terminfo",
+  "rows": 24,
+  "term": "xterm",
+  "terminals": [
+    {
+      "byte_match": true,
+      "caps_compared": 497,
+      "file_faithful": true,
+      "magic": "0o432",
+      "term": "xterm",
+      "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "caps_compared": 497,
+      "file_faithful": true,
+      "magic": "0o1036",
+      "term": "xterm-256color",
+      "terminfo_sha256": "7f27e57e318f32605466c781de06fba0ff27f212667140cde50ff65498123f84",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": false,
+      "caps_compared": 497,
+      "diffs": [
+        {
+          "c": "N|cols|80",
+          "rust": "N|cols|-1"
+        },
+        {
+          "c": "N|lines|24",
+          "rust": "N|lines|-1"
+        }
+      ],
+      "divergence_reason": "ncurses setupterm augments absent cols/lines from the runtime terminal size (use_env); the reader is terminfo-file-faithful",
+      "file_faithful": true,
+      "magic": "0o432",
+      "term": "linux",
+      "terminfo_sha256": "b70a4941416eb703a01b5a06fd1c914880452302b0e0b2a7dea12600607824a7",
+      "verdict": "admitted_divergence"
+    },
+    {
+      "byte_match": true,
+      "caps_compared": 497,
+      "file_faithful": true,
+      "magic": "0o432",
+      "term": "screen",
+      "terminfo_sha256": "173d3433ab6c064a1d2e01308603aa85f873d58e9cfecdb4c8cfe7dce1fd1250",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "caps_compared": 497,
+      "file_faithful": true,
+      "magic": "0o432",
+      "term": "tmux",
+      "terminfo_sha256": "1ba64c97a13daf4e0629c66d20933597d8804a58af1fd404bb30c22c199e0b29",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "caps_compared": 497,
+      "file_faithful": true,
+      "magic": "0o1036",
+      "term": "tmux-256color",
+      "terminfo_sha256": "b6b2e5fc2649b8248ff40572217a379a6228f20e90b4bac05521c80a7cdfbc9b",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "caps_compared": 497,
+      "file_faithful": true,
+      "magic": "0o432",
+      "term": "vt100",
+      "terminfo_sha256": "779a219d6ed2ed282f9416ee04fe65f92a1c90606cf6e93a61cebfc3aa96c982",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "caps_compared": 497,
+      "file_faithful": true,
+      "magic": "0o432",
+      "term": "ansi",
+      "terminfo_sha256": "93ec8cb9beb0c898ebc7dda0f670de31addb605be9005735228680d592cff657",
+      "verdict": "admitted_match"
+    },
+    {
+      "byte_match": true,
+      "caps_compared": 497,
+      "file_faithful": true,
+      "magic": "0o432",
+      "term": "rxvt",
+      "terminfo_sha256": "4e75bbc2fa9167f7f76a47eff35acb29dae20a012f65f1f4d213243811a57412",
+      "verdict": "admitted_match"
+    }
+  ],
+  "verdict": "admitted_match"
+}

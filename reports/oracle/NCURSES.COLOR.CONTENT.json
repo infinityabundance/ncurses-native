@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.COLOR.CONTENT",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Default 8-colour rgb palette (can_change_color false) and dynamic pair allocation.",
+  "oracle": "color_content(0)=0,0,0\ncolor_content(1)=680,0,0\ncolor_content(2)=0,680,0\ncolor_content(3)=680,680,0\ncolor_content(4)=0,0,680\ncolor_content(5)=680,0,680\ncolor_content(6)=0,680,680\ncolor_content(7)=680,680,680\n",
+  "oracle_class": "color",
+  "oracle_method": "color_content (default palette) / find_pair+alloc_pair vs ncurses",
+  "rows": 24,
+  "rust": "color_content(0)=0,0,0\ncolor_content(1)=680,0,0\ncolor_content(2)=0,680,0\ncolor_content(3)=680,680,0\ncolor_content(4)=0,0,680\ncolor_content(5)=680,0,680\ncolor_content(6)=0,680,680\ncolor_content(7)=680,680,680\n",
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

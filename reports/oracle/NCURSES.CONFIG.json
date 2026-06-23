@@ -1,0 +1,126 @@
+{
+  "byte_match": true,
+  "case_count": 22,
+  "case_id": "NCURSES.CONFIG",
+  "cases": [
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--prefix"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--exec-prefix"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--cflags"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--libs"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--libs-only-L"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--libs-only-l"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--libs-only-other"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--version"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--abi-version"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--mouse-version"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--bindir"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--datadir"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--includedir"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--libdir"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--mandir"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--terminfo"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--terminfo-dirs"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--termpath"
+    },
+    {
+      "flavour": "ncursesw6-config",
+      "match": true,
+      "opt": "--cflags --libs"
+    },
+    {
+      "flavour": "ncurses6-config",
+      "match": true,
+      "opt": "--libs"
+    },
+    {
+      "flavour": "ncurses6-config",
+      "match": true,
+      "opt": "--libs-only-l"
+    },
+    {
+      "flavour": "ncurses6-config",
+      "match": true,
+      "opt": "--cflags"
+    }
+  ],
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Native `ncursesw6-config` (crates/ncurses-tools) reproduces the system tool's output byte-for-byte across all 18 options (--version 6.4.20240113, --cflags, --libs `-lncursesw -ltinfo`, --abi-version 6, --mouse-version 2, the prefix/dir queries, and env-honoring --terminfo/--terminfo-dirs), and -- via program-name dispatch -- the narrow `ncurses6-config` (`-lncurses`). With the existing `ncursesw.pc`/`tinfo.pc` pkg-config files this gives downstream build systems a drop-in discovery surface. Advances BLD-05.",
+  "oracle_class": "c-abi-tools",
+  "oracle_method": "build native ncursesw6-config and compare every option's output to the system ncursesw6-config (and the narrow ncurses6-config via program-name dispatch)",
+  "rows": 24,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

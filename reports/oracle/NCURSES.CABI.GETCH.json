@@ -1,0 +1,58 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "5cb9c3b321334abc057b64cb3e4d653eb5f9042a8a170d9bc45130f28dd654ed",
+  "case_id": "NCURSES.CABI.GETCH",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "A real interactive curses C program gets identical keycodes from the native libncurses_cabi as from libncursesw: cabi getch wires the ncurses-terminal RawMode + Keys (over fd 0) to the byte-exact KeyMap decoder, and cbreak/keypad/noecho set it up. Together with the NCURSES.CURSES drawing court this makes the C-ABI a complete input+output curses drop-in for the courted surface.",
+  "oracle_class": "c-abi-input",
+  "oracle_method": "compile one curses C program (initscr/keypad/cbreak/getch) twice -- linked to libncurses_cabi.a and to libncursesw -- and feed each byte sequence over a raw xterm pty, comparing the keycodes returned",
+  "rows": 24,
+  "scenarios": [
+    {
+      "scenario": "arrows",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "f1_f4",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "nav_keys",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "f5_f12",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "text_and_keys",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "plain_text",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "backspace_tab_del",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "esc_then_char",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "esc_then_text",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "key_then_esc_text",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 10,
+  "scenarios_total": 10,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

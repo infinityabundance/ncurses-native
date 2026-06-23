@@ -1,0 +1,25 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "2ff95cc4f00055d907cb6e36df5ee30d8cfdb4e968c3e7d5b64c199d78ffbea9",
+  "cabi_values": "attr=200100 pair=1 n5=5 s5=[Hello] nr=73 rest=[World!                                                                   ]",
+  "case_id": "NCURSES.ATTR_STR",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_values": "attr=200100 pair=1 n5=5 s5=[Hello] nr=73 rest=[World!                                                                   ]",
+  "notes": "attr_get returns the window's current attributes (incl. color) and pair; the instr/innstr family reads characters from the cursor (up to n, or to end of line), returning the count -- identical to libncursesw.",
+  "oracle_class": "c-abi-attrstr",
+  "oracle_method": "link one attr_get + mvinnstr C program against libncurses_cabi + the generated curses.h and against libncursesw under an 80x24 xterm pty; compare the reported attributes, pair, and read-back strings",
+  "rows": 24,
+  "symbols": [
+    "attr_get",
+    "wattr_get",
+    "instr",
+    "innstr",
+    "winnstr",
+    "mvinnstr",
+    "mvwinnstr"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

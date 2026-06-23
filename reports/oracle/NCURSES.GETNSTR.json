@@ -1,0 +1,41 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "4fc17acf7ff1ef558409e145471b2c7bec38467acf1e2bc96e0d028fc8e13d60",
+  "case_id": "NCURSES.GETNSTR",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "getnstr reads a line, echoing printable characters and erasing on backspace (`\\b \\b`) until Enter, identically to libncursesw -- the common prompt/line-input path. Kill-line and word-erase editing keys are not modeled (rare).",
+  "oracle_class": "c-abi-input",
+  "oracle_method": "link one initscr/cbreak/echo/getnstr C program against libncurses_cabi.a and libncursesw; feed each input over a raw xterm pty and compare the echoed output + returned line (setup framing dropped)",
+  "rows": 24,
+  "scenarios": [
+    {
+      "scenario": "plain",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "backspace",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "two_backspace",
+      "verdict": "admitted_match"
+    },
+    {
+      "scenario": "with_spaces",
+      "verdict": "admitted_match"
+    }
+  ],
+  "scenarios_matched": 4,
+  "scenarios_total": 4,
+  "symbols": [
+    "getnstr",
+    "getstr",
+    "wgetnstr",
+    "echo",
+    "noecho"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

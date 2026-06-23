@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.MOUSE.TRAFO",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Mouse coordinate geometry (enclosure + window<->screen transform). Interactive getmouse/ungetmouse, the runtime has_mouse/mousemask state, and mouseinterval are not reconstructed.",
+  "oracle": "enc 2,3 1\nenc 6,12 1\nenc 1,3 0\nenc 7,7 0\nenc 2,13 0\nenc 4,7 1\ntrafo 1,2,1 -> 3,5 1\ntrafo 5,6,1 -> 5,6 0\ntrafo 4,7,0 -> 2,4 1\ntrafo 0,0,0 -> 0,0 0\ntrafo 6,12,0 -> 4,9 1\n",
+  "oracle_class": "mouse-trafo",
+  "oracle_method": "wenclose / wmouse_trafo over a fixed window vs ncurses",
+  "rows": 24,
+  "rust": "enc 2,3 1\nenc 6,12 1\nenc 1,3 0\nenc 7,7 0\nenc 2,13 0\nenc 4,7 1\ntrafo 1,2,1 -> 3,5 1\ntrafo 5,6,1 -> 5,6 0\ntrafo 4,7,0 -> 2,4 1\ntrafo 0,0,0 -> 0,0 0\ntrafo 6,12,0 -> 4,9 1\n",
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

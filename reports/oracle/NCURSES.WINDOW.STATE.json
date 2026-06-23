@@ -1,0 +1,15 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.WINDOW.STATE",
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "Window text-state reconstruction: printable bytes + newline (clear-to-EOL, no scroll), right-margin wrap, bottom clip. Tabs/control-char rendering, insert/delete, scroll regions, wide chars, and attribute/bkgd bits are out of scope (character cells only).",
+  "oracle_class": "window-state",
+  "oracle_method": "scripted addch/addstr/move/mvaddstr/erase on a WINDOW; character grid read back via winch and compared (behaviour parity, not bytes)",
+  "rows": 24,
+  "scripts": 25,
+  "term": "xterm",
+  "verdict": "admitted_match"
+}

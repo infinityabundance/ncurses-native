@@ -1,7 +1,7 @@
 //! # ncurses-native
 //!
 //! A clean-room, dependency-free Rust reproduction of the **observable terminal byte output** of
-//! ncurses 6.6 on one terminal: `TERM=xterm`.
+//! ncurses 6.4 on one terminal: `TERM=xterm`.
 //!
 //! This crate is **not** ncurses and is **not** a port of any ncurses C source. It reproduces the
 //! *bytes ncurses writes to the terminal* -- the escape-sequence stream captured from behavior under
@@ -10,7 +10,7 @@
 //!
 //! It is `#![forbid(unsafe_code)]`, std-only, has no dependencies, and is ASCII-only in source.
 //!
-//! ## What is reproduced (for `TERM=xterm`, ncurses 6.6)
+//! ## What is reproduced (for `TERM=xterm`, ncurses 6.4)
 //!
 //! * **The cursor-movement cost optimizer** -- [`cursor::mvcur`], ncurses's `relative_move`
 //!   strategy enumeration (VPA/cuu1, spaces/HPA/backspaces, CR-to-col1, home, CUP; shortest-wins
@@ -20,38 +20,55 @@
 //!   default pair (white-on-black, pair 0).
 //! * **Screen framing** -- [`term`]: the `smcup` init prologue and `rmcup` teardown epilogue.
 //! * **Erase operations** -- [`screen`]: `clear`, `clr_eos`, `clr_eol`, `clr_bol`.
+//! * **Bell** -- [`bell`]: `beep` (audible, `bel`) and `flash` (visible, `flash`). The first
+//!   man-page cluster (`curs_beep`) reconstructed to full byte parity, oracle-pinned.
 //! * **Single-field repaint** -- [`screen::single_field_repaint`]: the `wclear` + top-down
 //!   `TransformLine` paint of one static field on a blank screen.
 //!
 //! ## What is NOT yet reproduced (non-claims / parity roadmap)
 //!
-//! * **terminfo database parsing** -- exactly one terminal is hardcoded (`xterm`, ncurses 6.6); any
+//! * **terminfo database parsing** -- exactly one terminal is hardcoded (`xterm`, ncurses 6.4); any
 //!   other `TERM` or ncurses build emits different bytes. This is the largest TODO.
 //! * **The full `doupdate` / `TransformLine` line-diff** for arbitrary screen deltas -- only the
 //!   single-static-field shape is reproduced.
 //! * **Input handling** -- `getch`, `keypad`, mouse decoding, timeouts.
 //! * **`WINDOW` / `SCREEN` / pad structures** -- there is no window model.
 //! * **panels, menus, forms**.
-//! * **Terminals other than xterm**, and **ncurses builds other than 6.6**.
+//! * **Terminals other than xterm**, and **ncurses builds other than 6.4**.
 #![forbid(unsafe_code)]
 
 pub mod attr;
+pub mod bell;
 pub mod color;
 pub mod cursor;
+pub mod input;
 pub mod screen;
+pub mod slk;
 pub mod term;
+pub mod terminfo;
+pub mod update;
+pub mod vid;
+pub mod window;
 
 pub use attr::{sgr_off, sgr_on, Attr};
+pub use bell::{beep, flash};
 pub use color::{sgr_bg, sgr_fg, DEFAULT_PAIR};
-pub use cursor::mvcur;
+pub use cursor::{
+    mvcur, mvcur_caps, mvcur_ovw, mvcur_ovw_caps, normalized_cost, strip_padding, Caps,
+};
+pub use input::{keyname, KeyMap};
 pub use screen::{clear, clr_bol, clr_eol, clr_eos, single_field_repaint, RESET_DEFAULTS};
 pub use term::{
     Xterm, ADMITTED_NCURSES, ADMITTED_TERM, INIT_PROLOGUE, SCREEN_ROWS, TEARDOWN_EPILOGUE,
 };
+pub use terminfo::{putp, tgoto, tparm, tparm_n, tputs, LoadError, Param, Terminfo, Tigetstr};
+pub use update::Screen;
+pub use vid::Vid;
+pub use window::Window;
 
 /// An honest one-line statement of this crate's coverage and claim boundary.
 pub const COVERAGE_NOTE: &str = "ncurses-native reproduces roughly 3-5% of ncurses by surface: the \
-output bytes of ncurses 6.6 for one admitted terminal (TERM=xterm) -- cursor-movement optimizer, \
+output bytes of ncurses 6.4 for one admitted terminal (TERM=xterm) -- cursor-movement optimizer, \
 SGR attributes, ANSI color, smcup/rmcup framing, erase ops, and a single-field repaint. It is an \
 output-byte reproduction reverse-engineered from behavior, not a port of ncurses source, and a seed \
 toward parity, not a replacement.";

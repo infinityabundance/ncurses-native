@@ -1,0 +1,17 @@
+{
+  "byte_match": true,
+  "case_id": "NCURSES.MVCUR.VT100",
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The mvcur byte engine is byte-exact on vt100 -- all 23409 pairs -- a DIFFERENT cap class from xterm/linux: no hpa/vpa and padded cup/cuf1/cuu1. The cap-parameterized cost model (cup=33, cuf1/cuu1=13, parm caps=5, cub1=1, derived as chars+5*padding_ms at the 38400-baud pty) makes the engine pick the parameterized cuf/cub/cuu/cud and cub1 instead of column/row addressing. vt100's `xon` suppresses padding NUL bytes, so the output is pure escape sequences. This is the open multi-terminal cost model, now reproduced (STRUCT-04).",
+  "oracle_class": "pty-cursor-optimizer",
+  "oracle_method": "initscr; mvcur(from,to) for each pair of a 153x153 grid; endwin under an 80x24 vt100 pty; per-call output marker-isolated; compared to the crate's mvcur with Caps::vt100",
+  "pairs_compared": 23409,
+  "pairs_matched": 23409,
+  "recaptured": 1,
+  "rows": 24,
+  "term": "vt100",
+  "verdict": "admitted_match"
+}

@@ -1,0 +1,23 @@
+{
+  "byte_match": true,
+  "caps_compared": 497,
+  "caps_matched": 495,
+  "case_id": "NCURSES.TERMINFO.LINUX",
+  "cols": 80,
+  "diffs": [],
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "The terminfo reader is terminal-general: it parses the Linux console entry byte-identically to ncurses across all standard caps (495/497) -- proving the low-level layer is not xterm-specific (STRUCT-04). The two exceptions are cols/lines, absent from the linux entry and resolved by setupterm from the tty size (TIOCGWINSZ); the pure reader returns their raw absent (-1) value. Extended/user-defined caps are not parsed (explicit non-claim).",
+  "oracle_class": "terminfo-lookup",
+  "oracle_method": "crate Terminfo::load(linux fixture) + tiget* vs ncurses setupterm(\"linux\") + tiget*, over every standard boolean/numeric/string capability",
+  "oracle_sha256": "d648f3c6e4bfe44577d52e5a9882f351df3821f35b6e161a06a6ed2b7f8aa198",
+  "rows": 24,
+  "rust_sha256": "27eece5925c5004d9e5363018b8c5bb0e073642debcc0787361098ed12027771",
+  "screensize_resolved_by_setupterm": [
+    "N|cols|80",
+    "N|lines|24"
+  ],
+  "term": "xterm",
+  "terminfo_sha256": "b70a4941416eb703a01b5a06fd1c914880452302b0e0b2a7dea12600607824a7",
+  "verdict": "admitted_match"
+}

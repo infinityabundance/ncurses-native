@@ -1,0 +1,21 @@
+{
+  "byte_match": true,
+  "c_exit_code": 0,
+  "c_fixture_sha256": "f4896c4d44a32b165a8d64cb3e0ae83faaf1342d2ff6bd60982b93aae9bbbda8",
+  "case_id": "NCURSES.REFRESH.NOOUTPUT",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "notes": "redrawwin/wredrawln mark a window (or line range) to be fully repainted on the next refresh; they emit no immediate terminal bytes. The byte crate reconstructs this empty immediate-output contract; the repaint itself is the doupdate seed's job.",
+  "oracle_class": "pty-behavior",
+  "oracle_method": "initscr; <fn>; endwin under 80x24 pty; per-call output isolated by in-buffer markers",
+  "per_function_output": {
+    "redrawwin": "",
+    "wredrawln": ""
+  },
+  "rows": 24,
+  "rust_bytes": "",
+  "term": "xterm",
+  "terminfo_sha256": "83fc979026186c5134f343b94793f1fbc58d845de1d9fbad4351ac33e3ddfa97",
+  "verdict": "admitted_match"
+}

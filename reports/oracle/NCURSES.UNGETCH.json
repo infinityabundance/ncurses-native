@@ -1,0 +1,21 @@
+{
+  "byte_match": true,
+  "c_fixture_sha256": "19d9451462a85c028d073f7e92b2bf2be6b235ce575f7b85464ee89eada1141e",
+  "cabi_codes": "259\n66\n65",
+  "case_id": "NCURSES.UNGETCH",
+  "cols": 80,
+  "locale": "C.UTF-8",
+  "ncurses_version": "ncurses 6.4.20240113",
+  "ncursesw_codes": "259\n66\n65",
+  "notes": "ungetch pushes a key code back so the next getch returns it, LIFO across calls (KEY_UP, then 'B', then 'A'); flushinp discards pending input -- identical to libncursesw.",
+  "oracle_class": "c-abi-input",
+  "oracle_method": "link one ungetch/getch C program against libncurses_cabi.a and libncursesw; compare the codes getch returns from the pushed-back queue",
+  "rows": 24,
+  "symbols": [
+    "ungetch",
+    "flushinp",
+    "getch"
+  ],
+  "term": "xterm",
+  "verdict": "admitted_match"
+}
